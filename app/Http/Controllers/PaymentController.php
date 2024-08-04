@@ -66,6 +66,16 @@ class PaymentController extends Controller
                 $transaction_id = null  ;
             }
 
+            $tab=[];
+            $arrays = json_decode($cursus->classes , true);
+            foreach ($arrays as  $value) {
+               $tab[]=  $value;
+            };
+
+            $chunkSize = 4; // Nombre de tranches par groupe
+            $callseId = 0;  // Valeur initiale de 'callse_id'
+            $trancheCount = 0;
+
             $subscription = Subscription::create($data);
 
             $les_tranches = $this->generateSubscriptionDates( now() , $cursus->duree_mensuelle  ,  $cursus->forfait_mensuel ,  $cursus->montant_cursus );
@@ -77,6 +87,7 @@ class PaymentController extends Controller
                     'pay_at' => $pay_at,
                     'amount' => $cursus->forfait_mensuel ,
                     'transaction_id' => $transaction_id,
+                    'classe_id'=> $tab[$callseId] ,
                 ]);
 
                 if($key==0 and $data['method_pay'] == "Tranche" ){
@@ -85,13 +96,15 @@ class PaymentController extends Controller
                         'transaction_id' => $request->transaction_id,
                     ]);
                 }
+
+                $trancheCount++;
+                // Changer 'callse_id' tous les 4 tranches
+                if ($trancheCount % $chunkSize == 0) {
+                    $callseId++;
+                }
             }
 
-            $tab=[];
-            $arrays = json_decode($cursus->classes , true);
-            foreach ($arrays as  $value) {
-               $tab[]=  $value;
-            };
+
 
             $les_classes = Classe::whereIn('id', $tab )->get();
 
@@ -104,7 +117,7 @@ class PaymentController extends Controller
             }
 
             //Mail::to($user->email)->send(new NewSubscriptionNotification());
-            Notification::send(Auth::user(), new NewSubscriptionNotification( $subscription ));
+            Notification::send(Auth::user(), new NewSubscriptionNotification( $subscription , $les_tranches  ));
 
             return redirect()->route('user_dashboard')->with('success',"Abonnement activé avec succès");
 

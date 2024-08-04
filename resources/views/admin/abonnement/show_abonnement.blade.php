@@ -110,10 +110,10 @@
                             <table class="table table-nowrap align-middle table-borderless mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
-                                        <th scope="col">Product Details</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Rating</th>
-                                        <th scope="col" class="text-end">Total Amount</th>
+                                        <th scope="col">Classe</th>
+                                        <th scope="col">Montant</th>
+                                        <th scope="col">Statut</th>
+                                        <th scope="col" class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -169,11 +169,11 @@
                             <table class="table table-nowrap align-middle table-borderless mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
-                                        <th scope="col">Product Details</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col" class="text-end">Total Amount</th>
+                                        <th scope="col">Tranche par classe</th>
+                                        <th scope="col">Montant</th>
+                                        <th scope="col">Statut</th>
+                                        <th scope="col">Echéance</th>
+                                        <th scope="col" class="text-end">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -183,7 +183,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1 ms-3">
                                                     <h5 class="fs-15"><a href="#" class="link-primary">Tranche {{$key+1}} </a></h5>
-                                                    <p class="text-muted mb-0">Classe: <span class="fw-medium">--</span></p>
+                                                    <p class="text-muted mb-0">Classe: <span class="fw-medium">{{ $tranche->classe->name }}</span></p>
 
                                                 </div>
                                             </div>

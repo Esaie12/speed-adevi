@@ -110,9 +110,9 @@
                             <table class="table table-nowrap align-middle table-borderless mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
-                                        <th scope="col">Product Details</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Rating</th>
+                                        <th scope="col">Classe</th>
+                                        <th scope="col">Montant</th>
+                                        <th scope="col">Statut</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,11 +152,11 @@
                             <table class="table table-nowrap align-middle table-borderless mb-0">
                                 <thead class="table-light text-muted">
                                     <tr>
-                                        <th scope="col">Product Details</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col" class="text-end">Total Amount</th>
+                                        <th scope="col">Tranche par classe</th>
+                                        <th scope="col">Montant</th>
+                                        <th scope="col">Statut</th>
+                                        <th scope="col">Echéance</th>
+                                        <th scope="col" class="text-end">Action / Date de paiement</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -166,8 +166,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1 ms-3">
                                                     <h5 class="fs-15"><a href="#" class="link-primary">Tranche {{$key+1}} </a></h5>
-                                                    <p class="text-muted mb-0">Classe: <span class="fw-medium">--</span></p>
-                                                    <p class="text-muted mb-0">Payer le: <span class="fw-medium">--</span></p>
+                                                    <p class="text-muted mb-0">Classe: <span class="fw-medium">{{ $tranche->classe->name }}</span></p>
                                                 </div>
                                             </div>
                                         </td>
@@ -185,7 +184,12 @@
                                         </td>
                                         <td> {{ Carbon\Carbon::parse($tranche->date_tranche)->translatedFormat('d M, Y')}}</td>
                                         <td class="fw-medium text-end">
+                                            @if($tranche->pay_at)
+                                            <span class="fw-medium"> {{ Carbon\Carbon::parse($tranche->pay_at)->translatedFormat('d M, Y H:i')}}</span>
+                                            @else
                                             <button class="btn btn-sm btn-primary">Payer</button>
+                                            @endif
+
                                         </td>
                                     </tr>
                                     @endforeach

@@ -11,13 +11,14 @@ class NewSubscriptionNotification extends Notification
 {
     use Queueable;
 
-    public $subscription;
+    public $subscription , $tranches;
     /**
      * Create a new notification instance.
      */
-    public function __construct($subscription)
+    public function __construct($subscription , $tranches)
     {
         $this->subscription = $subscription;
+        $this->tranches = $tranches;
     }
 
     /**
@@ -36,8 +37,11 @@ class NewSubscriptionNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-        ->subject("Felicitation ! vous venez de souscire à un abonnement de ")
-        ->view('emails.users.subscription');
+        ->subject("Felicitation ! vous venez de souscire à un abonnement de ".format_money($this->subscription->amount) )
+        ->view('emails.users.subscription',[
+            'subscription'=>  $this->subscription,
+            'tranches'=> $this->tranches
+        ]);
     }
 
     /**

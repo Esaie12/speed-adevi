@@ -40,7 +40,10 @@ class LivraisonKitsNotification extends Notification
 
         return (new MailMessage)
         ->subject($objet)
-        ->view('emails.users.livraison_kits');
+        ->view('emails.users.livraison_kits',[
+            'subscription'=>$this->subscription,
+            'classe'=> $this->classe
+        ]);
     }
 
     /**

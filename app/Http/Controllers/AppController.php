@@ -76,12 +76,12 @@ class AppController extends Controller
             'lastname' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|string|email|max:255|unique:users,email,' . Auth::id(),
-            'profession' => 'nullable|string|max:255',
+            'profession' => 'required|string|max:255',
             'website' => 'nullable|url|max:255',
-            'country' => 'nullable|string|max:255',
-            'department' => 'nullable|string|max:255',
-            'adresse' => 'nullable|string|max:255',
-            'others' => 'nullable|string|max:255',
+            'country' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+            'adresse' => 'required|string|max:255',
+            'others' => 'required|string|max:255',
         ]);
 
         User::find( Auth::user()->id )->update([
@@ -95,6 +95,7 @@ class AppController extends Controller
             'department' => $request['department'],
             'adresse' => $request['adresse'],
             'others' => $request['others'],
+            'percentage'=> 100,
         ]);
 
         return redirect()->back()->with('success', 'Profil mis à jour avec succès.');

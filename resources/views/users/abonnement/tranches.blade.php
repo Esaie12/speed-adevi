@@ -63,6 +63,9 @@
                                     Cursus: <strong class="text-primary">{{ $tranche->subscription->cursus->title }}</strong>
                                 </p>
                                 <p>
+                                    Cette tranche est lié à la classe de <b class="text-success">{{ $tranche->classe->name }}</b>
+                                </p>
+                                <p>
                                     Date d'echéance: <strong>{{ Carbon\Carbon::parse($tranche->date_tranche)->translatedFormat('d M, Y')}}</strong>
                                 </p>
                                 <div class="d-flex justify-content-between">

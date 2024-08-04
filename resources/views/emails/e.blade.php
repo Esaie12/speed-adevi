@@ -8,19 +8,18 @@
                 <!-- Body content -->
                 <tr>
                     <td class="content-cell" style="max-width: 100vw; padding: 32px;">
-                        <h5>Bonjour {{$subscription->user->firstname." ".$subscription->user->lastname }},</h5>
+                        <h5>Bonjour [Nom du Client],</h5>
 
-                        <p>Nous sommes heureux de vous informer que les kits scolaires pour la classe de <b>{{ $classe->classe->name  }}</b> , inclus dans votre abonnement <b>#{{$subscription->reference}}</b>, ont été expédiés. 🌟</p>
+                        <p>Nous sommes heureux de vous informer que les kits scolaires pour la classe de CE1, inclus dans votre abonnement X, ont été expédiés. 🌟</p>
 
                         <p>
                             <b>Détails de l'expédition : </b> <br>
-                            - Adresse de livraison : [Adresse du Client] <br>
-                            - Date d'expédition : <b>{{date('Y-m-d')}}</b> <br>
+                            - **Adresse de livraison :** [Adresse du Client] <br>
+                            - **Date d'expédition :** [Date d'expédition] <br>
+                            - **Numéro de suivi :** [Numéro de suivi, si disponible]
                         </p>
                         <p>
-                            Nous espérons que ce kit répondra à vos attentes et facilitera la rentrée scolaire de votre enfant.
-                            <br> <br>
-                            Si vous avez des questions ou des préoccupations concernant cette expédition, n'hésitez pas à nous contacter à [Votre Adresse Email] ou au [Votre Numéro de Téléphone].
+                            Nous espérons que ce kit répondra à vos attentes et facilitera la rentrée scolaire de votre enfant. Si vous avez des questions ou des préoccupations concernant cette expédition, n'hésitez pas à nous contacter à [Votre Adresse Email] ou au [Votre Numéro de Téléphone].
 
                         </p>
                         <p>

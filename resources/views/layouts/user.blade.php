@@ -269,6 +269,12 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link collapsed" href="{{route('user_dons_index')}}" >
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Collectes de dons</span> <span class="badge badge-pill bg-danger" data-key="t-hot">2</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse"
                                 role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Abonnement</span>
@@ -285,6 +291,22 @@
                                 </ul>
                             </div>
                         </li> <!-- end Dashboard Menu -->
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
+                                <i class="ri-rocket-line"></i> <span data-key="t-landing">Transactions</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarLanding">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-one-page"> Mes transactions </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" data-key="t-nft-landing">Mes Factures </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
 
                     </ul>
                 </div>

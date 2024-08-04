@@ -16,7 +16,7 @@ class Tranche extends Model
         'date_tranche',
         'pay_at',
         'amount',
-        'transaction_id',
+        'transaction_id','classe_id'
     ];
 
     protected $dates = [
@@ -32,5 +32,10 @@ class Tranche extends Model
     public function status()
     {
         return $this->belongsTo(TrancheStatus::class, 'status_id');
+    }
+
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class, 'classe_id');
     }
 }

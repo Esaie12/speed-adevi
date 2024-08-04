@@ -57,9 +57,17 @@
                                 <h5 class="card-title mb-0">Profil completer à </h5>
                             </div>
                         </div>
+                        @if( Auth::user()->percentage < 100)
+                        <!-- danger Alert -->
+                        <div class="alert alert-danger" role="alert">
+                            <strong> Avant de continuer, veuillez </strong> completer les informations liés à votre profil!
+                        </div>
+
+                        @endif
+
                         <div class="progress animated-progress custom-progress progress-label">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
-                                <div class="label">30%</div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{Auth::user()->percentage}}%" aria-valuenow="{{Auth::user()->percentage}}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="label">{{Auth::user()->percentage}}%</div>
                             </div>
                         </div>
                     </div>

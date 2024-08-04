@@ -3,17 +3,22 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminControl;
 use App\Http\Middleware\UserControl;
+use App\Http\Middleware\CompleteProfil;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::middleware(['auth',UserControl::class ])->prefix('user')->group(function () {
-
-    Route::get('home', [App\Http\Controllers\AppController::class, "user_dashboard"])->name('user_dashboard');
+Route::middleware(['auth',UserControl::class , 'verified' ])->prefix('user')->group(function () {
     Route::get('profil', [App\Http\Controllers\AppController::class, "user_profil"])->name('user_profil');
     Route::post('update-profil', [App\Http\Controllers\AppController::class, "user_update_profil"])->name('update_profil');
     Route::post('update-password', [App\Http\Controllers\AppController::class, "update_password"])->name('update_password');
+
+});
+
+Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::class ])->prefix('user')->group(function () {
+
+    Route::get('home', [App\Http\Controllers\AppController::class, "user_dashboard"])->name('user_dashboard');
     Route::get('help', function () { return view('users.help'); })->name('help');
 
     Route::prefix('beneficiaire')->group(function () {
@@ -30,6 +35,11 @@ Route::middleware(['auth',UserControl::class ])->prefix('user')->group(function 
 
     Route::get('paiement/{id_cursus}',  [App\Http\Controllers\PaymentController::class, 'payments'])->name('paiement');
     Route::get('paiement-tranche',  [App\Http\Controllers\PaymentController::class, 'payments_tranche'])->name('paiement-tranche');
+
+    Route::prefix('collect-dons')->group(function () {
+        Route::get('list', [App\Http\Controllers\CollectController::class, 'dons_collects'])->name('user_dons_index');
+        Route::get('show/{id}',  [App\Http\Controllers\CollectController::class, 'show_dons_collects'])->name('show_dons_collects');
+    });
 });
 
 
