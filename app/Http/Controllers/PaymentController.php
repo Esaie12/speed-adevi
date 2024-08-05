@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\NewSubscriptionNotification;
 use App\Notifications\TranchePaymentNotification;
+use App\Notifications\MakeDonationNotification;
+use App\Models\Dons;
+use App\Models\DonsCollect;
 
 class PaymentController extends Controller
 {
@@ -166,6 +169,39 @@ class PaymentController extends Controller
         }
 
         return back()->with('success',"Paiement effectué avec succès");
+    }
+
+    /** Faire un dons */
+    public function payments_donate(Request $request){
+
+        $pay = $this->kkiapay->verifyTransaction($request->transaction_id);
+
+        try {
+            $id_don = $request->id;
+            $don = Dons::findOrFail($id_don);
+
+            if( in_array($pay->status , ['SUCCESS'])){
+
+                $ligne = DonsCollect::create([
+                    'user_id' => Auth::user()->id,
+                    'don_id' => $id_don ,
+                    'amount' => $pay->amount ,
+                    'transaction_id' =>  "transaction",
+                ]);
+
+                $don->update([
+                    'amount_collect' => $don->amount_collect + $pay->amount,
+                ]);
+
+
+                Notification::send(Auth::user(), new MakeDonationNotification( $don , $ligne ));
+
+                return back()->with('success',"Merci pour votre dons");
+            }
+            return back()->with('error',"Une erreur est subvenue");
+        } catch (\Exception $e) {
+            return back()->with('error',"Une erreur est subvenue");
+        }
     }
 
 }

@@ -292,7 +292,7 @@
                             </div>
                         </li> <!-- end Dashboard Menu -->
 
-                        <li class="nav-item">
+                        <!--li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Transactions</span>
                             </a>
@@ -306,6 +306,12 @@
                                     </li>
                                 </ul>
                             </div>
+                        </li-->
+
+                        <li class="nav-item">
+                            <a class="nav-link menu-link {{ $pack_list ?? '' }} " href="#" aria-expanded="false">
+                                <i class="ri-rocket-line"></i> <span data-key="t-landing">Mes Factures</span>
+                            </a>
                         </li>
 
                     </ul>

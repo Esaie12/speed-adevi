@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('subscription_id');
             $table->unsignedBigInteger('status_id')->default(1);
+            $table->unsignedBigInteger('classe_id')->after('subscription_id');
+
 
             $table->date('date_tranche');
             $table->dateTime('pay_at')->nullable();
@@ -25,7 +27,7 @@ return new class extends Migration
 
             $table->foreign('subscription_id')->references('id')->on('subscriptions');
             $table->foreign('status_id')->references('id')->on('tranche_status');
-
+            $table->foreign('classe_id')->references('id')->on('classes');
 
 
             $table->timestamps();

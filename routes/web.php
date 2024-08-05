@@ -35,6 +35,7 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
 
     Route::get('paiement/{id_cursus}',  [App\Http\Controllers\PaymentController::class, 'payments'])->name('paiement');
     Route::get('paiement-tranche',  [App\Http\Controllers\PaymentController::class, 'payments_tranche'])->name('paiement-tranche');
+    Route::get('make-donate-paiement', [App\Http\Controllers\PaymentController::class, 'payments_donate'])->name('donate_paiement');
 
     Route::prefix('collect-dons')->group(function () {
         Route::get('list', [App\Http\Controllers\CollectController::class, 'dons_collects'])->name('user_dons_index');
@@ -68,6 +69,15 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
     Route::get('subscription-show/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_subscription_show'] )->name('admin_subscription_show');
     Route::get('confirm-pay/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_tranche_pay'] )->name('admin_confirm_pay');
     Route::get('confirm-livraison/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_livrer'])->name('admin_livrer');
+
+    Route::prefix('collect-dons')->group(function () {
+        Route::get('list', [App\Http\Controllers\CollectController::class, 'admin_dons_collects'])->name('admin_dons_index');
+        Route::get('create',  [App\Http\Controllers\CollectController::class, 'create_dons_collects'])->name('create_dons_collects');
+        Route::post('save',  [App\Http\Controllers\CollectController::class, 'save_dons'])->name('admin_dons_save');
+        Route::get('edit/{id}',  [App\Http\Controllers\CollectController::class, 'edit_dons_collects'])->name('edit_dons_collects');
+        Route::post('update',  [App\Http\Controllers\CollectController::class, 'update_dons'])->name('admin_dons_update');
+        Route::get('delete/{id}',  [App\Http\Controllers\CollectController::class, 'delete_dons_collects'])->name('delete_dons_collects');
+    });
 
 });
 

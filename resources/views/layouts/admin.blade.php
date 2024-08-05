@@ -283,6 +283,12 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link menu-link collapsed" href="{{route('admin_dons_index')}}" >
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Collectes de dons</span> <span class="badge badge-pill bg-danger" data-key="t-hot">2</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse"
                                 role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-dashboard-2-line"></i> <span>Application</span>
