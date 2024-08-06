@@ -270,7 +270,10 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link collapsed" href="{{route('user_dons_index')}}" >
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Collectes de dons</span> <span class="badge badge-pill bg-danger" data-key="t-hot">2</span>
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Collectes de dons</span>
+                                @if($dons >0)
+                                <span class="badge badge-pill bg-danger" data-key="t-hot">{{$dons}}</span>
+                                @endif
                             </a>
                         </li>
 

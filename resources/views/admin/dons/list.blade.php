@@ -37,7 +37,7 @@
                 <div class="card" id="invoiceList">
                     <div class="card-header border-0">
                         <div class="d-flex align-items-center">
-                            <h5 class="card-title mb-0 flex-grow-1">Cursus</h5>
+                            <h5 class="card-title mb-0 flex-grow-1">Les dons et collectes</h5>
                             <div class="flex-shrink-0">
                                 <div class="d-flex gap-2 flex-wrap">
                                     <a  class="btn btn-success" href="{{route('create_dons_collects')}}" >

@@ -284,7 +284,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link collapsed" href="{{route('admin_dons_index')}}" >
-                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Collectes de dons</span> <span class="badge badge-pill bg-danger" data-key="t-hot">2</span>
+                                <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Collectes de dons</span>
                             </a>
                         </li>
 
@@ -316,17 +316,12 @@
                             <div class="collapse menu-dropdown" id="userSide">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{route('admin_category_index')}}" class="nav-link {{ $admin_category_index ?? '' }} " >
+                                        <a href="{{route('list_users')}}" class="nav-link {{ $admin_category_index ?? '' }} " >
                                             Clients
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin_category_index')}}" class="nav-link {{ $admin_category_index ?? '' }} " >
-                                           Béneficiaire
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('admin_cursus_index')}}" class="nav-link {{ $admin_cursus_index ?? '' }} " >
+                                        <a href="{{route('list_admins')}}" class="nav-link {{ $admin_cursus_index ?? '' }} " >
                                            Administrateurs</a>
                                     </li>
                                 </ul>
@@ -413,6 +408,8 @@
 
     <!-- Dashboard init -->
     <script src="{{ asset('assets/js/pages/dashboard-analytics.init.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @stack('scripts')
     <!-- App js -->

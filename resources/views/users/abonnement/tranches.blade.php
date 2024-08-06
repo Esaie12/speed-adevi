@@ -41,18 +41,20 @@
                     <div class="col-md-4">
                         <div class="card border card-border-{{$tranche->status->color }}">
                             <div class="card-header">
-                                <span class="float-end">{{$tranche->status->title }}</span>
-                                <h6 class="card-title mb-0">
-                                    Tranche {{$key+1}}
+                                <span class="float-end">
                                     @if($tranche->pay_at)
                                             <span class="badge badge-soft-success text-uppercase">Payer</span>
+                                        @else
+                                            @if($tranche->date_tranche < date('Y-m-d'))
+                                            <span class="badge badge-soft-danger text-uppercase">En retard</span>
                                             @else
-                                                @if($tranche->date_tranche < date('Y-m-d'))
-                                                <span class="badge badge-soft-danger text-uppercase">En retard</span>
-                                                @else
-                                                <span class="badge badge-soft-warning text-uppercase">Non Payé</span>
-                                                @endif
+                                            <span class="badge badge-soft-warning text-uppercase">Non Payé</span>
+                                        @endif
                                     @endif
+                                </span>
+                                <h6 class="card-title mb-0">
+                                    Tranche {{$key+1}}
+
                                 </h6>
                             </div>
                             <div class="card-body">

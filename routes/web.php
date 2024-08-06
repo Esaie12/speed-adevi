@@ -53,6 +53,14 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
         return view('admin.dashboard');
     })->name('admin_dashboard');
 
+    Route::get('admins-list', [App\Http\Controllers\UserController::class, 'list_admins'])->name('list_admins');
+    Route::get('users-list', [App\Http\Controllers\UserController::class, 'list_users'])->name('list_users');
+
+    Route::prefix('collabo')->group(function () {
+        Route::get('add', [App\Http\Controllers\UserController::class, 'add_admin'])->name('add_admin');
+        Route::post('save', [App\Http\Controllers\UserController::class, 'save_admin'])->name('admin_save');
+    });
+
     Route::prefix('category')->group(function () {
         Route::get('list',[App\Http\Controllers\CategoryController::class , 'adminListCategory'] )->name('admin_category_index');
         Route::post('save',[App\Http\Controllers\CategoryController::class , 'saveCategory'] )->name('admin_category_save');

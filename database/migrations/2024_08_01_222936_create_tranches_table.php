@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('subscription_id');
             $table->unsignedBigInteger('status_id')->default(1);
-            $table->unsignedBigInteger('classe_id')->after('subscription_id');
+            $table->unsignedBigInteger('classe_id');
 
 
             $table->date('date_tranche');
