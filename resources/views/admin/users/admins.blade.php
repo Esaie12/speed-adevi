@@ -68,7 +68,13 @@
                                     <td>{{$admin->account_id}}</td>
                                     <td>{{$admin->lastname}} {{$admin->firstname}}</td>
                                     <td><a href="#!">{{$admin->email}}</a></td>
-                                    <td><span class="badge badge-soft-info">Actif</span></td>
+                                    <td>
+                                        @if($admin->actif == true)
+                                        <span class="badge badge-soft-success">Actif</span>
+                                        @else
+                                        <span class="badge badge-soft-danger">Bloqué</span>
+                                        @endif
+                                    </td>
                                     <td>{{$admin->last_login}}</td>
                                     <td>{{$admin->created_at}}</td>
 
@@ -78,12 +84,22 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>Modifier</a></li>
                                                 <li>
-                                                    <a class="dropdown-item remove-item-btn">
+                                                    <a href="{{route('edit_admin',encrypt($admin->id))}}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>Modifier</a>
+                                                </li>
+                                                @if($admin->actif == true)
+                                                <li>
+                                                    <a href="{{route('block_user',encrypt($admin->id))}}" class="dropdown-item remove-item-btn">
                                                         <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Bloquer
                                                     </a>
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <a href="{{route('unblock_user',encrypt($admin->id))}}" class="dropdown-item remove-item-btn">
+                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Débloquer
+                                                    </a>
+                                                </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>
@@ -121,7 +137,6 @@
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js" integrity="sha384-jIAE3P7Re8BgMkT0XOtfQ6lzZgbDw/02WeRMJvXK3WMHBNynEx5xofqia1OHuGh0" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js" integrity="sha384-ziUH70yXeghwn7LIJvtjobzpllxs+w4FJL4/ssbFYWoYof46CveVyQ+GCaR1eTXj" crossorigin="anonymous"></script>
 
-        <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
     @endpush
 
 </x-admin-layout>

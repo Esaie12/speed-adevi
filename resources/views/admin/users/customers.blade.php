@@ -58,7 +58,13 @@
                                     <td>{{$user->lastname}} {{$user->firstname}}</td>
                                     <td><a href="#!">{{$user->email}}</a></td>
                                     <td>{{$user->country}}</td>
-                                    <td><span class="badge badge-soft-info">Actif</span></td>
+                                    <td>
+                                        @if($user->actif == true)
+                                        <span class="badge badge-soft-success">Actif</span>
+                                        @else
+                                        <span class="badge badge-soft-danger">Bloqué</span>
+                                        @endif
+                                    </td>
                                     <td>{{$user->last_login}}</td>
                                     <td>{{$user->created_at}}</td>
 
@@ -69,11 +75,19 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> Voir Profil</a></li>
-                                               <li>
-                                                    <a class="dropdown-item remove-item-btn">
-                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>Bloquer
+                                                @if($user->actif == true)
+                                                <li>
+                                                    <a href="{{route('block_user',encrypt($user->id))}}" class="dropdown-item remove-item-btn">
+                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Bloquer
                                                     </a>
                                                 </li>
+                                                @else
+                                                <li>
+                                                    <a href="{{route('unblock_user',encrypt($user->id))}}" class="dropdown-item remove-item-btn">
+                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Débloquer
+                                                    </a>
+                                                </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

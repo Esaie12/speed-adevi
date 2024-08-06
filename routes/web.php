@@ -55,10 +55,14 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
 
     Route::get('admins-list', [App\Http\Controllers\UserController::class, 'list_admins'])->name('list_admins');
     Route::get('users-list', [App\Http\Controllers\UserController::class, 'list_users'])->name('list_users');
+    Route::get('block-user/{id}', [App\Http\Controllers\UserController::class, 'block_user'])->name('block_user');
+    Route::get('unblock-user/{id}', [App\Http\Controllers\UserController::class, 'unblock_user'])->name('unblock_user');
 
     Route::prefix('collabo')->group(function () {
         Route::get('add', [App\Http\Controllers\UserController::class, 'add_admin'])->name('add_admin');
         Route::post('save', [App\Http\Controllers\UserController::class, 'save_admin'])->name('admin_save');
+        Route::get('edit/{id}', [App\Http\Controllers\UserController::class, 'edit_admin'])->name('edit_admin');
+        Route::post('update', [App\Http\Controllers\UserController::class, 'update_admin'])->name('admin_update');
     });
 
     Route::prefix('category')->group(function () {

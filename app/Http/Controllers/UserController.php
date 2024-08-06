@@ -7,7 +7,12 @@ use App\Models\User;
 use App\Models\SubscriptionClasse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
+
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewAdminNotification;
 
 
 class UserController extends Controller
@@ -41,29 +46,95 @@ class UserController extends Controller
             'adresse'=>['nullable','string','max:200'],
         ]);
 
-        User::create([
-            'account_id'=> "AD".date('Y').User::count()+1,
-            'firstname' => $request['firstname'],
-            'lastname' => $request['lastname'],
-            'phone' => $request['phone'],
-            'email' => $request['email'],
-
-            'country' => $request['country'],
-
-            'adresse' => $request['adresse'],
-            'password'=> Hash::make('P@ssw0rd'),
-            'role'=> 'admin',
-        ]);
-
-        return redirect()->route('list_admins')->with('success',"Collaborateur ajouté avec succès");
-
-        /*
-        ,"lastname":"Nom","firstname":"prpe","phone":"5555","birthday":"2024-08-06","country":"Pays","adresse":"Adres"
-        */
         try {
 
-        } catch (\Throwable $th) {
-            //throw $th;
+            $new_pwd = Str::random(8);
+
+            $user = User::create([
+                'account_id'=> "AD".date('Y').User::count()+1,
+                'firstname' => $request['firstname'],
+                'lastname' => $request['lastname'],
+                'phone' => $request['phone'],
+                'email' => $request['email'],
+                'country' => $request['country'],
+                'adresse' => $request['adresse'],
+                'password'=> Hash::make( $new_pwd ),
+                'role'=> 'admin',
+            ]);
+
+            Notification::send( $user , new NewAdminNotification( $user , $new_pwd ));
+
+            return redirect()->route('list_admins')->with('success',"Collaborateur ajouté avec succès");
+
+        } catch (\Exception $e) {
+            return back()->with('error',"Une erreur est subvenue");
         }
+    }
+
+    /** Editer un amdin */
+    public function edit_admin($id){
+        $admin = User::findOrFail( decrypt($id) );
+        if(!$admin){
+            return back()->with('error',"Une erreur est subvenue");
+        }
+        return view('admin.users.edit_admin',compact('admin'));
+    }
+
+    /** Modifier les informations */
+    public function update_admin(Request $request){
+
+        $id = decrypt($request->admin_id);
+        $request->validate([
+            'email'=>['required','email','unique:users,email,'.$id],
+            'lastname'=>['required','string','max:200'],
+            'firstname'=>['required','string','max:200'],
+            'phone'=>['required','string','max:20'],
+            'birthday'=>['nullable','date'],
+            'country'=>['required','string','max:50'],
+            'adresse'=>['nullable','string','max:200'],
+        ]);
+
+        try {
+
+            $admin = User::findOrFail($id);
+
+            $admin = $admin->update([
+                'firstname' => $request['firstname'],
+                'lastname' => $request['lastname'],
+                'phone' => $request['phone'],
+                'email' => $request['email'],
+                'country' => $request['country'],
+                'adresse' => $request['adresse'],
+            ]);
+
+           return redirect()->route('list_admins')->with('success',"Collaborateur ajouté avec succès");
+
+        } catch (\Exception $e) {
+            return back()->with('error',"Une erreur est subvenue");
+        }
+    }
+
+    /** Bloquer un user */
+    public function block_user($id){
+        $user = User::findOrFail( decrypt($id) );
+        if(! $user){
+            return back()->with('error',"Une erreur est subvenue");
+        }
+        $user->update([
+            'actif'=> false,
+        ]);
+        return back()->with('success', "Utilisateur bloqué avec succès");
+    }
+
+    /** Fonction debloquer */
+    public function unblock_user($id){
+        $user = User::findOrFail( decrypt($id) );
+        if(! $user){
+            return back()->with('error',"Une erreur est subvenue");
+        }
+        $user->update([
+            'actif'=> true,
+        ]);
+        return back()->with('success', "Utilisateur débloqué avec succès");
     }
 }
