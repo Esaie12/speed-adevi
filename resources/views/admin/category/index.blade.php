@@ -51,7 +51,7 @@
                             <div class="mb-3">
                                 <div class="form-group">
                                     <label for="">Description</label>
-                                    <input id="" name="description" value="{{old('description')}}" class="form-control" type="text" name="">
+                                    <textarea name="description" id="" class="form-control" cols="30" rows="10">{{old('description')}}</textarea>
                                     @error('description')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror
@@ -66,7 +66,7 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Basic Datatables</h5>
+                        <h5 class="card-title mb-0">Les catégories d'abonnements</h5>
                     </div>
                     <div class="card-body">
                         <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">

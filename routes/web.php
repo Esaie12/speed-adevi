@@ -49,9 +49,10 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
 
 Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(function () {
 
-    Route::get('home', function () {
-        return view('admin.dashboard');
-    })->name('admin_dashboard');
+    Route::get('home', [App\Http\Controllers\AppController::class, "admin_dashboard"])->name('admin_dashboard');
+
+    Route::get('plateforme', [App\Http\Controllers\AppController::class, "manage_plateforme"])->name('plateforme');
+    Route::post('plateforme-manage', [App\Http\Controllers\AppController::class, "update_plateforme"])->name('plateforme_update');
 
     Route::get('admins-list', [App\Http\Controllers\UserController::class, 'list_admins'])->name('list_admins');
     Route::get('users-list', [App\Http\Controllers\UserController::class, 'list_users'])->name('list_users');
@@ -75,6 +76,7 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
 
     Route::prefix('cursus')->group(function () {
         Route::get('list',[App\Http\Controllers\CursusController::class, 'admin_list_cursus'] )->name('admin_cursus_index');
+        Route::post('save',[App\Http\Controllers\CategoryController::class , 'admin_cursus_save'] )->name('admin_cursus_save');
     });
 
     Route::get('subscription-list', [App\Http\Controllers\SubscriptionController::class, 'admin_subscription'] )->name('admin_subscription_list');
@@ -96,3 +98,4 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
 Route::get('truncate-notifications', [App\Http\Controllers\AppController::class, 'truncate_all_notifications'])->name('truncate_all_notifications');
 
 
+Route::get('test', function(){ return view('test'); });

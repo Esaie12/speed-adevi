@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
         $this->call([
+            Plateforme::class,
             ClassesSeeder::class,
             AdminSeeder::class,
             CategorySeeder::class,

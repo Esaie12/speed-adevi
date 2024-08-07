@@ -52,7 +52,7 @@
                             <div class="mb-3">
                                 <div class="form-group">
                                     <label for="">Description</label>
-                                    <input id="" name="description" value="{{old('description',$category->description)}}" class="form-control" type="text" name="">
+                                    <textarea name="description" id="" class="form-control" cols="30" rows="10">{{old('description',$category->description)}}</textarea>
                                     @error('description')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror

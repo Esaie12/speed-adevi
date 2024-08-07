@@ -33,13 +33,13 @@
                             </div>
                             <div class="flex-shrink-0">
                                 <h5 class="text-success fs-14 mb-0">
-                                     +16.24 %
+                                    {{$data['abonnement']}}
                                 </h5>
                             </div>
                         </div>
                         <div class="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">559.25</span>k</h4>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"> {{format_money($data['abonnement_amount'])}} </h4>
                                 <a href="#" class="text-decoration-underline">Voir tout</a>
                             </div>
                             <div class="avatar-sm flex-shrink-0">
@@ -58,18 +58,18 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <p class="text-uppercase fw-medium  mb-0">Orders</p>
+                                <p class="text-uppercase fw-medium  mb-0">Tranches payées</p>
                             </div>
                             <div class="flex-shrink-0">
                                 <h5 class="text-warning fs-14 mb-0">
-                                    <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
+                                     {{$data['paid']}}
                                 </h5>
                             </div>
                         </div>
                         <div class="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4 "><span class="counter-value" data-target="36894">36,894</span></h4>
-                                <a href="#" class="text-decoration-underline">View all orders</a>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4 ">{{format_money($data['paid_amount'])}}</h4>
+                                <a href="#" class="text-decoration-underline">Les tranches payées</a>
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <span class="avatar-title bg-soft-light rounded fs-3">
@@ -87,18 +87,18 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <p class="text-uppercase fw-medium text-muted mb-0">Customers</p>
+                                <p class="text-uppercase fw-medium text-muted mb-0">Tranches impayées</p>
                             </div>
                             <div class="flex-shrink-0">
                                 <h5 class="text-success fs-14 mb-0">
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
+                                    {{$data['unpaid']}}
                                 </h5>
                             </div>
                         </div>
                         <div class="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">183.35</span>M</h4>
-                                <a href="#" class="text-decoration-underline">See details</a>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{format_money($data['unpaid_amount'])}}</h4>
+                                <a href="#" class="text-decoration-underline">Les tranches impayées</a>
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <span class="avatar-title bg-soft-warning rounded fs-3">
@@ -116,18 +116,18 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <p class="text-uppercase fw-medium text-muted mb-0">My Balance</p>
+                                <p class="text-uppercase fw-medium text-muted mb-0">Tranches en retard</p>
                             </div>
                             <div class="flex-shrink-0">
                                 <h5 class="text-muted fs-14 mb-0">
-                                    +0.00 %
+                                    {{$data['retard']}}
                                 </h5>
                             </div>
                         </div>
                         <div class="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">165.89</span>k</h4>
-                                <a href="#" class="text-decoration-underline">Withdraw money</a>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{format_money($data['retard_amount'])}}</h4>
+                                <a href="#" class="text-decoration-underline">Les tranches en retard</a>
                             </div>
                             <div class="avatar-sm flex-shrink-0">
                                 <span class="avatar-title bg-soft-primary rounded fs-3">
@@ -148,9 +148,9 @@
                         <div class="row align-items-end">
                             <div class="col-sm-8">
                                 <div class="p-3">
-                                    <p class="fs-16 lh-base">Upgrade your plan from a <span class="fw-semibold">Free trial</span>, to ‘Premium Plan’ <i class="mdi mdi-arrow-right"></i></p>
+                                    <p class="fs-16 lh-base">L'administration de la plateforme est <span class="fw-semibold">à votre portée.</span>, Commencer maintenant <i class="mdi mdi-arrow-right"></i></p>
                                     <div class="mt-3">
-                                        <a href="pages-pricing.html" class="btn btn-success">La plateforme</a>
+                                        <a href="{{route('plateforme')}}" class="btn btn-success">La plateforme</a>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="fs-16 lh-base">Personalized <span class="fw-semibold">Gift Boxes</span>, with attitude, Let's collect your Xmas box <i class="mdi mdi-arrow-right"></i></p>
+                                <p class="fs-16 lh-base">Vous avez la possibilités de lancer <span class="fw-semibold">des collectes de dons</span>. Essayez maintenant <i class="mdi mdi-arrow-right"></i></p>
                                 <div class="mt-3">
                                     <a href="{{route('admin_dons_index')}}" class="btn btn-secondary">Créer une collecte</a>
                                 </div>

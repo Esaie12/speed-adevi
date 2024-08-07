@@ -93,12 +93,12 @@
                                     <thead class="text-muted">
                                         <tr>
                                             <th class="sort text-uppercase" data-sort="invoice_id">ID</th>
-                                            <th class="sort text-uppercase" data-sort="customer_name">Customer</th>
-                                            <th class="sort text-uppercase" data-sort="email">Email</th>
-                                            <th class="sort text-uppercase" data-sort="country">Country</th>
-                                            <th class="sort text-uppercase" data-sort="date">Date</th>
-                                            <th class="sort text-uppercase" data-sort="invoice_amount">Amount</th>
-                                            <th class="sort text-uppercase" data-sort="status">Payment Status</th>
+                                            <th class="sort text-uppercase" data-sort="customer_name">Catégorie</th>
+                                            <th class="sort text-uppercase" data-sort="email">Durée</th>
+                                            <th class="sort text-uppercase" data-sort="country">Mensualité</th>
+                                            <th class="sort text-uppercase" data-sort="date">Tranche</th>
+                                            <th class="sort text-uppercase" data-sort="invoice_amount">Inscription</th>
+                                            <th class="sort text-uppercase" data-sort="status">Montant total</th>
                                             <th class="sort text-uppercase" data-sort="action">Action</th>
                                         </tr>
                                     </thead>
@@ -190,7 +190,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="javascript:void(0);">
+                    <form action="{{route('admin_cursus_save')}}" method="POST" >
+                        @csrf
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div>
@@ -206,8 +207,10 @@
                                     <label for="firstName" class="form-label">Catégorie de cursus</label>
                                     <select class="form-select mb-3" name="category" >
                                         <option value="" >Choisir une catégorie</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
+                                        @foreach ($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+
                                     </select>
                                 </div>
                                 @error('category')

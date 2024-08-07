@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Cursus;
 use App\Models\Subscription;
 use App\Models\Tranche;
+use App\Models\Plateforme;
 
 class AppController extends Controller
 {
@@ -122,4 +123,71 @@ class AppController extends Controller
         return redirect()->back()->with('success', 'Mot de passe mis à jour avec succès.');
     }
 
+    public function admin_dashboard() {
+
+        $data = [
+            'abonnement'=> 0,
+            'abonnement_amount'=> 0,
+            'paid' => 0,
+            'paid_amount' => 0,
+            'unpaid' => 0,
+            'unpaid_amount' => 0,
+            'retard' => 0,
+            'retard_amount' => 0,
+        ];
+
+
+        $abonnements = Subscription::all();
+        foreach ($abonnements as $abon) {
+            $data['abonnement']++;
+            $data['abonnement_amount'] += ( $abon->amount + $abon->amount_inscription );
+        }
+
+        // Récupérer les tranches pour les abonnements de l'utilisateur
+        $tranches = Tranche::all();
+
+        // Calculer les différentes valeurs
+        foreach ($tranches as $tranche) {
+            if ($tranche->pay_at) {
+                $data['paid']++;
+                $data['paid_amount'] += $tranche->amount;
+            } else {
+                if ($tranche->date_tranche > date('Y-m-d')) {
+                    $data['unpaid']++;
+                    $data['unpaid_amount'] += $tranche->amount;
+                } else {
+                    $data['retard']++;
+                    $data['retard_amount'] += $tranche->amount;
+                }
+            }
+        }
+
+
+        return view('admin.dashboard',compact('data'));
+    }
+
+
+    public function manage_plateforme(){
+        $plateforme = Plateforme::first();
+        return view('admin.plateforme',compact('plateforme'));
+    }
+
+    public function update_plateforme(Request $request){
+
+        $request->validate([
+            'mode'=>['required','boolean'],
+            'public_key'=>['required','string'],
+            'private_key'=>['required','string'],
+            'secret_key'=>['required','string'],
+        ]);
+
+        $plateforme = Plateforme::first();
+        $plateforme->update([
+            'mode'=> $request['mode'],
+            "public_key" => $request['public_key'],
+            "private_key" => $request['private_key'],
+            'secret_key' => $request['secret_key'],
+        ]);
+        return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+    }
 }

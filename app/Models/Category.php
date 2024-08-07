@@ -14,6 +14,7 @@ class Category extends Model
         'description',
         'picture',
         'slug',
+        'deleted_at'
     ];
 
     public function cursus()

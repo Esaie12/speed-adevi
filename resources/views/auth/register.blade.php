@@ -21,6 +21,9 @@
                                 <div class="invalid-feedback">
                                    Veuillez entrer votre nom
                                 </div>
+                                @error('lastname')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
@@ -29,6 +32,9 @@
                                 <div class="invalid-feedback">
                                    Veuillez entrer vos prénoms
                                 </div>
+                                @error('firstname')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
@@ -37,6 +43,9 @@
                                 <div class="invalid-feedback">
                                     Veuillez entrer votre email
                                 </div>
+                                @error('email')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
 
 
