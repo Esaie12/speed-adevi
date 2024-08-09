@@ -313,7 +313,7 @@
                         </li-->
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link {{ $pack_list ?? '' }} " href="#" aria-expanded="false">
+                            <a class="nav-link menu-link {{ $pack_list ?? '' }} " href="{{route('list_invoices_user')}}" aria-expanded="false">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Mes Factures</span>
                             </a>
                         </li>

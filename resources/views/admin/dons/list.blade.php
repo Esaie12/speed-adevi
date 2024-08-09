@@ -93,12 +93,12 @@
                                     <thead class="text-muted">
                                         <tr>
                                             <th class="sort text-uppercase" data-sort="invoice_id">ID</th>
-                                            <th class="sort text-uppercase" data-sort="customer_name">Customer</th>
-                                            <th class="sort text-uppercase" data-sort="email">Email</th>
-                                            <th class="sort text-uppercase" data-sort="country">Country</th>
-                                            <th class="sort text-uppercase" data-sort="date">Date</th>
-                                            <th class="sort text-uppercase" data-sort="invoice_amount">Amount</th>
-                                            <th class="sort text-uppercase" data-sort="status">Payment Status</th>
+                                            <th class="sort text-uppercase" data-sort="customer_name">Titre</th>
+                                            <th class="sort text-uppercase" data-sort="email">Cagnotte</th>
+                                            <th class="sort text-uppercase" data-sort="country">Montant reçu</th>
+                                            <th class="sort text-uppercase" data-sort="date">Date de publication</th>
+                                            <th class="sort text-uppercase" data-sort="invoice_amount">Date de fin</th>
+                                            <th class="sort text-uppercase" data-sort="status">Status</th>
                                             <th class="sort text-uppercase" data-sort="action">Action</th>
                                         </tr>
                                     </thead>
@@ -126,7 +126,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
                                                         <li>
-                                                            <button class="dropdown-item" href="javascript:void(0);" onclick="ViewInvoice(this);" data-id="25000351"><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
+                                                            <button class="dropdown-item" href="javascript:void(0);" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                                                                 Voir les collects
                                                             </button>
                                                         </li>
@@ -155,17 +155,6 @@
                                         <h5 class="mt-2">Sorry! No Result Found</h5>
                                         <p class="text-muted mb-0">We've searched more than 150+ invoices We did not find any invoices for you search.</p>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end mt-3">
-                                <div class="pagination-wrap hstack gap-2">
-                                    <a class="page-item pagination-prev disabled" href="#">
-                                        Previous
-                                    </a>
-                                    <ul class="pagination listjs-pagination mb-0"></ul>
-                                    <a class="page-item pagination-next" href="#">
-                                        Next
-                                    </a>
                                 </div>
                             </div>
                         </div>

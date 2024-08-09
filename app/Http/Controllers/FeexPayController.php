@@ -18,6 +18,8 @@ use App\Notifications\MakeDonationNotification;
 use App\Models\Dons;
 use App\Models\DonsCollect;
 use Illuminate\Support\Facades\Http;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 
 class FeexPayController extends Controller
 {
@@ -151,6 +153,42 @@ class FeexPayController extends Controller
                 ]);
             }
 
+            //Créer maintenant la facture
+            $invoice = Invoice::create([
+                'reference'=> "AD".(Invoice::count()+1).date('Y'),
+                'user_id' => Auth::user()->id,
+                'date_invoice' => now(),
+                'amount' =>  $pay['amount'],
+            ]);
+            InvoiceItem::create([
+                'invoice_id' => $invoice->id,
+                'quantity'=> 1,
+                'amount' => $cursus->montant_inscription,
+                'item' => "Souscrire à l'abonnement ".$subscription->reference ,
+                'description' =>  "inscription",
+            ]);
+
+            if( $pay['amount']== ($cursus->montant_cursus + $cursus->montant_inscription) ){
+
+                InvoiceItem::create([
+                    'invoice_id' => $invoice->id,
+                    'quantity'=> 1,
+                    'amount' => $cursus->montant_cursus,
+                    'item' => "Payer les tranches de mon abonnemet ".$subscription->reference ,
+                    'description' =>  "Payer la totalité au comptant",
+                ]);
+            }elseif( $pay['amount']== ($cursus->forfait_mensuel + $cursus->montant_inscription) ){
+                InvoiceItem::create([
+                    'invoice_id' => $invoice->id,
+                    'quantity'=> 1,
+                    'amount' => $cursus->forfait_mensuel,
+                    'item' => "Payer la 1ere tranche de mon abonnemet ".$subscription->reference ,
+                    'description' =>  "Payer par tranche",
+                ]);
+            }
+
+
+
             //Mail::to($user->email)->send(new NewSubscriptionNotification());
             Notification::send(Auth::user(), new NewSubscriptionNotification( $subscription , $les_tranches  ));
 
@@ -201,6 +239,21 @@ class FeexPayController extends Controller
 
             $tranche = Tranche::findOrFail($request->id);
 
+            //Créer maintenant la facture
+            $invoice = Invoice::create([
+                'reference'=> "AD".(Invoice::count()+1).date('Y'),
+                'user_id' => Auth::user()->id,
+                'date_invoice' => now(),
+                'amount' =>  $pay['amount'],
+            ]);
+            InvoiceItem::create([
+                'invoice_id' => $invoice->id,
+                'quantity'=> 1,
+                'amount' =>$pay['amount'],
+                'item' => "Payer la tranche de mon abonnement ".$tranche->subscription->reference ,
+                'description' =>  $tranche->subscription->cursus->title,
+            ]);
+
             Notification::send(Auth::user(), new TranchePaymentNotification( $tranche ));
 
         }
@@ -236,6 +289,21 @@ class FeexPayController extends Controller
 
 
                 Notification::send(Auth::user(), new MakeDonationNotification( $don , $ligne ));
+
+                //Créer maintenant la facture
+                $invoice = Invoice::create([
+                    'reference'=> "AD".(Invoice::count()+1).date('Y'),
+                    'user_id' => Auth::user()->id,
+                    'date_invoice' => now(),
+                    'amount' =>  $pay['amount'],
+                ]);
+                InvoiceItem::create([
+                    'invoice_id' => $invoice->id,
+                    'quantity'=> 1,
+                    'amount' =>$pay['amount'],
+                    'item' => "Participer à la collecte" ,
+                    'description' => $don->title,
+                ]);
 
                 return back()->with('success',"Merci pour votre dons");
             }

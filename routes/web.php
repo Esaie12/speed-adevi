@@ -49,6 +49,11 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
         Route::get('list', [App\Http\Controllers\CollectController::class, 'dons_collects'])->name('user_dons_index');
         Route::get('show/{id}',  [App\Http\Controllers\CollectController::class, 'show_dons_collects'])->name('show_dons_collects');
     });
+
+    Route::prefix('invoices')->group(function () {
+        Route::get('list', [App\http\Controllers\InvoiceController::class , 'list_invoices_user'])->name('list_invoices_user');
+        Route::get('show/{id}', [App\http\Controllers\InvoiceController::class , 'show_invoice'])->name('user_invoice_show');
+    });
 });
 
 
@@ -110,6 +115,11 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
         Route::get('edit/{id}',  [App\Http\Controllers\CollectController::class, 'edit_dons_collects'])->name('edit_dons_collects');
         Route::post('update',  [App\Http\Controllers\CollectController::class, 'update_dons'])->name('admin_dons_update');
         Route::get('delete/{id}',  [App\Http\Controllers\CollectController::class, 'delete_dons_collects'])->name('delete_dons_collects');
+    });
+
+    Route::prefix('invoices')->group(function () {
+        Route::get('list', [App\http\Controllers\InvoiceController::class , 'list_invoices_admin'])->name('list_invoices_admin');
+        Route::get('show/{id}', [App\http\Controllers\InvoiceController::class , 'show_invoice'])->name('admin_invoice_show');
     });
 
 });

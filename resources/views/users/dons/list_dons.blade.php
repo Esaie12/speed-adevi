@@ -47,7 +47,9 @@
                                 <h6 class="card-title mb-0"><i class="ri-gift-line align-middle me-1 lh-1"></i>{{$collect->title}}</h6>
                             </div>
                             <div class="card-body">
-                                <p class="card-text mb-2">For that very reason, I went on a quest and spoke to many different professional graphic designers and asked them what graphic design tips they live.</p>
+                                <p class="card-text mb-2">
+                                    @php echo Str::substr( html_entity_decode( $collect->description) , 0, 500) @endphp
+                                </p>
                                 <p class="card-text"><small class="text-muted">Commencer le {{ $collect->started }}</small></p>
 
                                 <div class="d-flex align-items-center py-2">

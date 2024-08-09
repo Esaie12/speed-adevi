@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('status_id')->default(1);
-            $table->dateTime('date_invoice');
-            $table->string('agregateur')->default('FEEXPAY');
+            $table->unsignedBigInteger('invoice_id');
+            $table->bigInteger('quantity')->default(1);
             $table->bigInteger('amount');
+            $table->string('item');
+            $table->string('description')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('invoice_id')->references('id')->on('invoices');
 
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('invoice_items');
     }
 };

@@ -257,8 +257,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link {{ $admin_dashboard ?? '' }} " href="{{route('admin_dashboard')}}" aria-expanded="false">
-                                <i class="ri-honour-line"></i> <span>Livraison</span>
+                            <a class="nav-link menu-link {{ $admin_dashboard ?? '' }} " href="{{route('list_invoices_admin')}}" aria-expanded="false">
+                                <i class="ri-honour-line"></i> <span>Factures</span>
                             </a>
                         </li>
                         <li class="nav-item">
