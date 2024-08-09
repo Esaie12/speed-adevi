@@ -1,7 +1,7 @@
 <x-admin-layout>
 
     <x-slot name="tite" >
-        Les abonnements
+        Les différentes tranches
     </x-slot>
 
     <x-slot name="pack_list">
@@ -27,12 +27,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Les abonnements</h4>
+                    <h4 class="mb-sm-0">Les différentes tranches</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{route('admin_dashboard')}}">Tableau de bord</a></li>
-                            <li class="breadcrumb-item active">Les abonnements</li>
+                            <li class="breadcrumb-item active">Les différentes tranches</li>
                         </ol>
                     </div>
 
@@ -46,7 +46,7 @@
                 <div class="card" id="invoiceList">
                     <div class="card-header border-0">
                         <div class="d-flex align-items-center">
-                            <h5 class="card-title mb-0 flex-grow-1">Les abonnements</h5>
+                            <h5 class="card-title mb-0 flex-grow-1">Les différentes tranches</h5>
                         </div>
                     </div>
                     <div class="card-body bg-soft-light border border-dashed border-start-0 border-end-0">
@@ -64,19 +64,19 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-light">
-                                        <select class="form-control"  id="idType">
-                                            <option value="all" selected>Tout type de paiement</option>
-                                            <option value="Tranche">Par tranche</option>
-                                            <option value="Totalité">En totalité</option>
+                                        <select class="form-control"  id="idStatus">
+                                            <option value="all" selected>Status des tranches</option>
+                                            <option value="PAYER">Tranche Payer</option>
+                                            <option value="{{strtoupper("Non Payé")}}">Tranche non Payer</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="input-light">
-                                        <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
-                                            <option value="all" selected>Tous les status</option>
-                                           @foreach ($status as $statu)
-                                           <option value="{{ strtoupper($statu->title) }}">{{$statu->title}}</option>
+                                        <select class="form-control" id="idClasse">
+                                            <option value="all" selected>Tous les classes</option>
+                                           @foreach ($classes as $classe)
+                                           <option value="{{ strtoupper($classe->name) }}">{{$classe->name}}</option>
                                            @endforeach
                                         </select>
                                     </div>
@@ -112,25 +112,40 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all" id="exemple">
-                                        @foreach ($abonnements as $abonnement)
+                                        @foreach ($tranches as $key=> $tranche)
                                         <tr>
-                                            <td class="id"><a href="javascript:void(0);" onclick="ViewInvoice(this);" data-id="25000351" class="fw-medium link-primary">#{{$abonnement->reference}}</a></td>
-                                            <td class="email"> {{$abonnement->user->firstname }}  {{$abonnement->user->lastname }}</td>
-                                            <td class="email"> {{$abonnement->cursus->category->title }}</td>
-                                            <td class="customer_name">
-                                                {{$abonnement->cursus->title }}
+                                            <td class="id"><a href="javascript:void(0);" onclick="ViewInvoice(this);" data-id="25000351" class="fw-medium link-primary"># Tranche {{$key+1}}</a></td>
+                                            <td class="email">
+                                                {{ $tranche->subscription->user->firstname }}  {{ $tranche->subscription->user->lastname }}
                                             </td>
-                                            <td class="invoice_amount">{{ format_money($abonnement->amount) }}</td>
-                                            <td class="country"> {{$abonnement->method_pay }}</td>
+                                            <td class="email">{{ $tranche->subscription->cursus->category->title }}</td>
+                                            <td class="customer_name">
+                                                {{ $tranche->subscription->cursus->title }}
+                                            </td>
+                                            <td>
+                                                {{ $tranche->classe->name }}
+                                            </td>
+                                            <td class="invoice_amount">{{ format_money($tranche->amount) }}</td>
+                                            <td>
+                                                <strong>{{ Carbon\Carbon::parse($tranche->date_tranche)->translatedFormat('d M, Y')}}</strong>
+                                            </td>
+                                            <td class="date">
+                                                @if($tranche->pay_at)
+                                                {{ Carbon\Carbon::parse($tranche->pay_at)->translatedFormat('d M, Y H:i')}}
+                                                @else
+                                                @endif
+                                            </td>
 
                                             <td class="status">
-                                                <span class="badge badge-soft-{{$abonnement->status->color }} text-uppercase">{{$abonnement->status->title }}</span>
-                                            </td>
-                                            <td class="date">
-                                                {{ Carbon\Carbon::parse($abonnement->last_paiement)->translatedFormat('d M, Y')}}
-                                            </td>
-                                            <td class="date">
-                                                {{ Carbon\Carbon::parse($abonnement->created_at)->translatedFormat('d M, Y')}}
+                                                @if($tranche->pay_at)
+                                                        <span class="badge badge-soft-success text-uppercase">Payer</span>
+                                                    @else
+                                                        @if($tranche->date_tranche < date('Y-m-d'))
+                                                        <span class="badge badge-soft-danger text-uppercase">En retard</span>
+                                                        @else
+                                                        <span class="badge badge-soft-warning text-uppercase">Non Payé</span>
+                                                    @endif
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="dropdown">
@@ -139,20 +154,20 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" style="">
                                                         <li>
-                                                            <a class="dropdown-item" href="{{route('admin_subscription_show',encrypt($abonnement->id))}}" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
+                                                            <a class="dropdown-item" href="{{route('admin_subscription_show',encrypt($tranche->id))}}" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
                                                                 Voir l'abonnement
                                                             </a>
                                                         </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>Rapport</a></li>
                                                         <li class="dropdown-divider"></li>
                                                         <li>
-                                                            <a class="dropdown-item remove-item-btn" onclick="return confirm('Êtes-vous sûr de vouloir marquer la fin de cet abonnement ?');" href="{{route('finish_subscription_admin',encrypt($abonnement->id))}}r">
+                                                            <a class="dropdown-item remove-item-btn" onclick="return confirm('Êtes-vous sûr de vouloir marquer la fin de cet abonnement ?');" href="{{route('finish_subscription_admin',encrypt($tranche->id))}}r">
                                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                                 Marquer la fin de l'abonnement
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item remove-item-btn"  onclick="return confirm('Êtes-vous sûr de vouloir suspendre cet abonnement ?');" href="{{route('stop_subscription_admin',encrypt($abonnement->id))}}">
+                                                            <a class="dropdown-item remove-item-btn"  onclick="return confirm('Êtes-vous sûr de vouloir suspendre cet abonnement ?');" href="{{route('stop_subscription_admin',encrypt($tranche->id))}}">
                                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                                 Arreter l'abonnement
                                                             </a>
@@ -261,9 +276,10 @@
                     }
                 }*/
 
+
                 $('#filterButton').click(function () {
                     let idStatus = $('#idStatus').val();
-                    let idType = $('#idType').val();
+                    let idClasse = $('#idClasse').val();
                     let idCateg = $('#idCateg').val();
                     //let dateRange = $('#demo-datepicker').val();
                     //let startDate = new Date(dateRange.split(" to ")[0]);
@@ -271,15 +287,15 @@
 
                     // Appliquez le filtrage à DataTables
                     if (idStatus === 'all') {
-                        table.column(6).search('', false, true);
+                        table.column(8).search('', false, true);
                     }else{
-                        table.column(6).search(idStatus, false, true);
+                        table.column(8).search(idStatus, false, true);
                     }
 
-                    if (idType=== 'all') {
-                        table.column(5).search('', false, true);
+                    if (idClasse=== 'all') {
+                        table.column(4).search('', false, true);
                     }else{
-                        table.column(5).search(idType, false, true);
+                        table.column(4).search(idClasse, false, true);
                     }
 
                     if (idCateg=== 'all') {

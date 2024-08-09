@@ -14,6 +14,8 @@ class MakeSubscription extends Component
     public $my_choice = null;
     public $subs =null;
     public $url_back ='';
+    public $my_id ;
+    public $my_amount = 0;
 
     public function mount($category_id){
         $this->category_id = $category_id;
@@ -46,6 +48,7 @@ class MakeSubscription extends Component
     }
 
     public function choiceCursus($id_choice){
+
         $this->my_choice = $id_choice;
         if($this->my_choice >0){
             $this->subs = Cursus::find($this->my_choice);
@@ -53,9 +56,14 @@ class MakeSubscription extends Component
 
             $this->details = $this->generateSubscriptionDates( now(), $this->subs->duree_mensuelle ,  $this->subs->forfait_mensuel ,  $this->subs->montant_cursus  );
 
+           // dd($id_choice);
+            $this->my_id = $this->subs->id;
+            $this->my_amount = $this->subs->forfait_mensuel;
+
+
             $this->url_back = route('paiement', $this->my_choice);
             //$this->url_back = $this->my_choice;
-            $this->dispatch('choiceCursus', $this->url_back);
+          //  $this->dispatch('choiceCursus', $this->url_back);
         }
     }
 

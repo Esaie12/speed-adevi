@@ -1,5 +1,7 @@
 <x-user-layout>
 
+    <x-slot name="title" >Mon profil</x-slot>
+
     <x-slot name="pack_make">
         active
     </x-slot>

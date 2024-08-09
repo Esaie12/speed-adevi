@@ -29,6 +29,47 @@ class UserController extends Controller
         return view('admin.users.admins',compact('admins'));
     }
 
+    /** Profil admin */
+    public function admin_profil(){
+        $admin = User::findOrFail(Auth::user()->id );
+        if(!$admin){
+            return back()->with('error',"Une erreur est subvenue");
+        }
+        return view('admin.profil_admin',compact('admin'));
+    }
+
+
+    public function profil_update_admin(Request $request){
+
+        $request->validate([
+            'lastname'=>['required','string','max:200'],
+            'firstname'=>['required','string','max:200'],
+            'phone'=>['required','string','max:20'],
+            'birthday'=>['nullable','date'],
+            'country'=>['required','string','max:50'],
+            'adresse'=>['nullable','string','max:200'],
+        ]);
+
+        try {
+
+            $admin = User::findOrFail(Auth::user()->id);
+
+            $admin = $admin->update([
+                'firstname' => $request['firstname'],
+                'lastname' => $request['lastname'],
+                'phone' => $request['phone'],
+                'email' => $request['email'],
+                'country' => $request['country'],
+                'adresse' => $request['adresse'],
+            ]);
+
+           return redirect()->back()->with('success',"Profil modifié avec succès");
+
+        } catch (\Exception $e) {
+            return back()->with('error',"Une erreur est subvenue");
+        }
+    }
+
     /** Ajouter un admin */
     public function add_admin(){
         return view('admin.users.create_admin');

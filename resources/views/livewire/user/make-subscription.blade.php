@@ -29,11 +29,20 @@
                         <h6 class="mb-1">{{format_money($subs->montant_cursus)}}</h6>
                         <p class="card-text text-muted">Montant du cursus</p>
                     </div>
+
+                    @if(1 ==2)
                     <div class="ms-5" >
                         <button class="btn btn-success" onclick="makePaiementKkiapay({{$subs->forfait_mensuel + $subs->montant_inscription}})" >Payer par acompte</button>
                     </div>
                     <div class="ms-5" >
                         <button class="btn btn-success" onclick="makePaiementKkiapay({{$subs->montant_cursus + $subs->montant_inscription}})" >Payer en totalité </button>
+                    </div>
+                    @endif
+
+                    <div class="ms-4">
+                        <a href="{{route('final_pack',$subs->id)}}" class="btn btn-success">
+                            Passer au paiement
+                        </a>
                     </div>
                 </div>
 
@@ -49,33 +58,33 @@
     @endif
 
     @push('scripts')
-    <script>
-        // Variable globale pour l'URL de retour
-        var call_back_url = "{{$this->url_back}}";
+        <!--script>
+            // Variable globale pour l'URL de retour
+            var call_back_url = "{{$this->url_back}}";
 
-        // Écouteur d'événement global pour 'change_category'
-        window.addEventListener("choiceCursus", (e) => {
-            setTimeout(() => {
-                call_back_url = e.detail; // Mettre à jour l'URL de retour
-            }, 0);
-        });
-
-        function makePaiementKkiapay(price){
-            var price = price;
-
-            $(function(){
-                openKkiapayWidget({
-                    amount: price,
-                    position: "right",
-                    callback: call_back_url, // Utiliser la variable globale mise à jour
-                    data: "",
-                    theme: "#23a16f",
-                    key: "85abcb60ae8311ecb9755de712bc9e4f",
-                    sandbox: "true"
-                });
+            // Écouteur d'événement global pour 'change_category'
+            window.addEventListener("choiceCursus", (e) => {
+                setTimeout(() => {
+                    call_back_url = e.detail; // Mettre à jour l'URL de retour
+                }, 0);
             });
-        }
-    </script>
+
+            function makePaiementKkiapay(price){
+                var price = price;
+
+                $(function(){
+                    openKkiapayWidget({
+                        amount: price,
+                        position: "right",
+                        callback: call_back_url, // Utiliser la variable globale mise à jour
+                        data: "",
+                        theme: "#23a16f",
+                        key: "85abcb60ae8311ecb9755de712bc9e4f",
+                        sandbox: "true"
+                    });
+                });
+            }
+        </script-->
     @endpush
 
 

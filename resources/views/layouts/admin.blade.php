@@ -27,6 +27,7 @@
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/toastr/toastr.css') }}" rel="stylesheet" />
 
 </head>
 
@@ -95,9 +96,7 @@
                                 id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                                 data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class='bx bx-bell fs-22'></i>
-                                <span
-                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">3<span
-                                        class="visually-hidden">unread messages</span></span>
+                                <span  class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{count(Auth::user()->unreadNotifications)}}<span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                                 aria-labelledby="page-header-notifications-dropdown">
@@ -109,40 +108,33 @@
                                                 <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
                                             </div>
                                             <div class="col-auto dropdown-tabs">
-                                                <span class="badge badge-soft-light fs-13"> 4 New</span>
+                                                <a href="{{ route('truncate_all_notifications') }}" class="text-white" >
+                                                    <button type="button" class="btn btn-danger btn-sm btn-icon waves-effect waves-light" data-bs-toggle="tooltip"
+                                                        data-bs-trigger="hover" data-bs-placement="top" title="Vider toutes les notifications">
+                                                        <i class="ri-delete-bin-5-line"></i>
+                                                    </button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
 
-                                <div class="tab-content position-relative" id="notificationItemsTabContent">
+
+                                <div class="tab-content position-relative" id="">
                                     <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                            @foreach (Auth::user()->unreadNotifications as $notification)
                                             <div  class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
-                                                    <div class="avatar-xs me-3">
-                                                        <span
-                                                            class="avatar-title bg-soft-info text-info rounded-circle fs-16">
-                                                            <i class="bx bx-badge-check"></i>
-                                                        </span>
-                                                    </div>
                                                     <div class="flex-1">
-                                                        <a href="#!" class="stretched-link">
-                                                            <h6 class="mt-0 mb-2 lh-base">Your <b>Elite</b> author
-                                                                Graphic
-                                                                Optimization <span class="text-secondary">reward</span>
-                                                                is
-                                                                ready!
-                                                            </h6>
-                                                        </a>
+                                                        {!! $notification->data['message'] !!}
                                                         <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                            <span><i class="mdi mdi-clock-outline"></i> Just 30 sec
-                                                                ago</span>
+                                                            <span><i class="mdi mdi-clock-outline"></i> {{ Carbon\Carbon::parse($notification->created_at)->translatedFormat('d F Y à H:i') }}</span>
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endforeach
 
                                             <div class="my-3 text-center view-all">
                                                 <button type="button"
@@ -175,9 +167,9 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
-                                <a class="dropdown-item" href="#"><i
+                                <a class="dropdown-item" href="{{route('admin_profil')}}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
-                                        class="align-middle">Profile</span></a>
+                                        class="align-middle">Profil</span></a>
 
                                 <a class="dropdown-item" href="{{route('plateforme')}}"><i
                                         class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span
@@ -280,7 +272,7 @@
                                         <a href="{{route('admin_subscription_list')}}" class="nav-link {{ $admin_category_index ?? '' }} " data-key="t-analytics">Abonnements</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('admin_cursus_index')}}" class="nav-link {{ $admin_cursus_index ?? '' }} " data-key="t-analytics">Tranches</a>
+                                        <a href="{{route('admin_list_tranche')}}" class="nav-link {{ $admin_cursus_index ?? '' }} " data-key="t-analytics">Tranches</a>
                                     </li>
                                 </ul>
                             </div>
@@ -420,6 +412,33 @@
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
     @stack('modals')
+
+    <script src="{{ asset('assets/libs/toastr/toastr.min.js') }}"></script>
+
+    @if (Session::has('success') && session('success') != 'success')
+        <script>
+            toastr.success(`{{ session('success') }}`, 'Succès', {
+                "closeButton": true,
+                "progressBar": true,
+                "showDuration": "5000",
+                "timeOut": "5000",
+                positionClass: 'toast-top-right'
+            })
+        </script>
+    @endif
+
+    @if (Session::has('error'))
+        <script>
+            toastr.error(`{{ session('error') }}`, 'Erreur', {
+                "closeButton": true,
+                "progressBar": true,
+                "showDuration": "5000",
+                "timeOut": "5000",
+                positionClass: 'toast-top-right'
+            })
+        </script>
+    @endif
+
 
 </body>
 

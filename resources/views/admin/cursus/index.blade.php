@@ -51,20 +51,9 @@
                     <div class="card-body bg-soft-light border border-dashed border-start-0 border-end-0">
                         <form>
                             <div class="row g-3">
-                                <div class="col-xxl-5 col-sm-12">
-                                    <div class="search-box">
-                                        <input type="text" class="form-control search bg-light border-light" placeholder="Search for customer, email, country, status or something...">
-                                        <i class="ri-search-line search-icon"></i>
-                                    </div>
-                                </div>
-                                <!--end col-->
-                                <div class="col-xxl-3 col-sm-4">
-                                    <input type="text" class="form-control bg-light border-light" id="datepicker-range" placeholder="Select date">
-                                </div>
-                                <!--end col-->
                                 <div class="col-xxl-3 col-sm-4">
                                     <div class="input-light">
-                                        <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                        <select class="form-control"  id="idStatus">
                                             <option value="">Status</option>
                                             <option value="all" selected>All</option>
                                             <option value="Unpaid">Unpaid</option>
@@ -76,8 +65,8 @@
                                 </div>
                                 <!--end col-->
 
-                                <div class="col-xxl-1 col-sm-4">
-                                    <button type="button" class="btn btn-primary w-100" onclick="SearchData();">
+                                <div class="col-lg-4">
+                                    <button type="button" class="btn btn-primary w-100"  id="filterButton">
                                         <i class="ri-equalizer-fill me-1 align-bottom"></i> Filters
                                     </button>
                                 </div>
@@ -88,8 +77,8 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <div class="table-responsive table-card">
-                                <table class="table align-middle table-nowrap" id="invoiceTable">
+                            <div class="table-responsive">
+                                <table class="table align-middle table-nowrap" id="example" style="width:100%">
                                     <thead class="text-muted">
                                         <tr>
                                             <th class="sort text-uppercase" data-sort="invoice_id">ID</th>
@@ -125,17 +114,13 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><button class="dropdown-item" href="javascript:void(0);" onclick="ViewInvoice(this);" data-id="25000351"><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
-                                                                View</button></li>
                                                         <li><button class="dropdown-item" href="javascript:void(0);" onclick="EditInvoice(this);" data-id="25000351"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                                Edit</button></li>
-                                                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>
-                                                                Download</a></li>
+                                                                Modifier</button></li>
                                                         <li class="dropdown-divider"></li>
                                                         <li>
-                                                            <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
+                                                            <a class="dropdown-item remove-item-btn" href="{{route('admin_cursus_delete', encrypt( $cur->id) )}}">
                                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                                Delete
+                                                               Supprimer
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -153,17 +138,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-end mt-3">
-                                <div class="pagination-wrap hstack gap-2">
-                                    <a class="page-item pagination-prev disabled" href="#">
-                                        Previous
-                                    </a>
-                                    <ul class="pagination listjs-pagination mb-0"></ul>
-                                    <a class="page-item pagination-next" href="#">
-                                        Next
-                                    </a>
-                                </div>
-                            </div>
                         </div>
 
 
@@ -177,6 +151,94 @@
     </div>
 
     @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let table = new DataTable('#example', {
+                    scrollX: !0,
+                    searching: true,
+                    select: true,
+                    columnDefs: [
+                        {
+                            orderable: false,
+                            targets: 0
+                        },
+                        {
+                            orderable: false,
+                            targets: 1
+                        },
+                    ],
+                });
+
+                /*
+                $('#checkAll').on('change', function () {
+                    let isChecked = $(this).prop('checked');
+                    $('.selectRow').prop('checked', isChecked);
+
+                    // Appliquez la classe CSS 'selected' aux lignes sélectionnées
+                    table.rows({ page: 'current' }).every(function () {
+                        let row = this.nodes().to$();
+                        if (isChecked) {
+                            row.addClass('selected');
+                        } else {
+                            row.removeClass('selected');
+                        }
+                    });
+                    updateSelectionCount();
+                });
+
+                // Gestion des cases à cocher individuelles
+                $('.selectRow').on('change', function () {
+                    let isChecked = $(this).prop('checked');
+                    let row = table.row($(this).parents('tr'));
+                    let rowElement = row.node();
+
+                    if (isChecked) {
+                        rowElement.classList.add('selected');
+                    } else {
+                        rowElement.classList.remove('selected');
+                    }
+
+                    updateSelectionCount();
+                });
+
+                // Mettre à jour le compteur de sélection
+                function updateSelectionCount() {
+                    let selectedCount = $('.selected', table.table().node()).length;
+
+                    if (selectedCount > 0) {
+                        $('.other').addClass('d-none');
+                        $('#many_export').removeClass('d-none');
+                        document.getElementById('selected_count').textContent = selectedCount ;
+                    }else{
+                        $('.other').removeClass('d-none');
+                        $('#many_export').addClass('d-none');
+                    }
+                }*/
+
+                $('#filterButton').click(function () {
+                    let idStatus = $('#idStatus').val();
+
+                    // Appliquez le filtrage à DataTables
+                    if (idStatus === 'all') {
+                        table.column(1).search('', false, true);
+                    }else{
+                        table.column(1).search(idStatus, false, true);
+                    }
+
+                    table.draw();
+                });
+            });
+        </script>
+
+        <!--datatable js-->
+        <script src="{{ asset('assets/js/pages/jquery.dataTables.min.js') }}"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js" integrity="sha384-jIAE3P7Re8BgMkT0XOtfQ6lzZgbDw/02WeRMJvXK3WMHBNynEx5xofqia1OHuGh0" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js" integrity="sha384-ziUH70yXeghwn7LIJvtjobzpllxs+w4FJL4/ssbFYWoYof46CveVyQ+GCaR1eTXj" crossorigin="anonymous"></script>
+
+        <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
+    @endpush
+
+    @push('scripts2')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="{{asset('assets/js/pages/invoiceslist.init.js')}}"></script>
     @endpush
@@ -253,6 +315,28 @@
                                 @error('amount_monthly')
                                     <span class="text-danger">{{$message}}</span>
                                 @enderror
+                            </div>
+                            <div class="col-lg-6">
+                                <div>
+                                    <label for="lastName" class="form-label">Mensualité</label>
+                                    <input type="number" readonly class="form-control" value="4"  name="mensuality" placeholder="Ex: 10 000">
+                                </div>
+                                @error('mensuality')
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="my-input">Cochez les classes</label>
+                                    <div class="row">
+                                        @foreach ($classes as $classe)
+                                        <div class="col-md-4 mb-2" >
+                                            <input name="classes[]" type="checkbox" value="{{$classe->id}}" >
+                                            <span class="text-primary">{{$classe->name}}</span>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-lg-12">

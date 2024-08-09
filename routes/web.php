@@ -6,7 +6,8 @@ use App\Http\Middleware\UserControl;
 use App\Http\Middleware\CompleteProfil;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('user_dashboard');
+    //return view('welcome');
 })->name('welcome');
 
 Route::middleware(['auth',UserControl::class , 'verified' ])->prefix('user')->group(function () {
@@ -28,14 +29,21 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
 
     Route::get('pack', [App\Http\Controllers\CategoryController::class, 'category_pack_list'] )->name('pack_list');
     Route::get('pack-show/{slug}', [App\Http\Controllers\CategoryController::class, 'category_pack_show'] )->name('pack_show');
+    Route::get('final-pack/{id}',[App\Http\Controllers\CategoryController::class, 'final_pack'])->name('final_pack');
 
     Route::get('subscription-list', [App\Http\Controllers\SubscriptionController::class, 'user_subscription'] )->name('user_subscription');
     Route::get('subscription-show/{id}', [App\Http\Controllers\SubscriptionController::class, 'subscription_show'] )->name('user_subscription_show');
     Route::get('tranches', [App\Http\Controllers\SubscriptionController::class, 'user_tranches'] )->name('user_tranche');
 
+    /*
     Route::get('paiement/{id_cursus}',  [App\Http\Controllers\PaymentController::class, 'payments'])->name('paiement');
     Route::get('paiement-tranche',  [App\Http\Controllers\PaymentController::class, 'payments_tranche'])->name('paiement-tranche');
     Route::get('make-donate-paiement', [App\Http\Controllers\PaymentController::class, 'payments_donate'])->name('donate_paiement');
+    */
+
+    Route::get('paiement/{id_cursus}',  [App\Http\Controllers\FeexPayController::class, 'payments'])->name('paiement');
+    Route::get('paiement-tranche',  [App\Http\Controllers\FeexPayController::class, 'payments_tranche'])->name('paiement-tranche');
+    Route::get('make-donate-paiement', [App\Http\Controllers\FeexPayController::class, 'payments_donate'])->name('donate_paiement');
 
     Route::prefix('collect-dons')->group(function () {
         Route::get('list', [App\Http\Controllers\CollectController::class, 'dons_collects'])->name('user_dons_index');
@@ -50,6 +58,9 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
 Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(function () {
 
     Route::get('home', [App\Http\Controllers\AppController::class, "admin_dashboard"])->name('admin_dashboard');
+    Route::get('profil', [App\Http\Controllers\UserController::class, "admin_profil"])->name('admin_profil');
+    Route::post('profil-save', [App\Http\Controllers\UserController::class, 'profil_update_admin'])->name('admin_profil_update');
+
 
     Route::get('plateforme', [App\Http\Controllers\AppController::class, "manage_plateforme"])->name('plateforme');
     Route::post('plateforme-manage', [App\Http\Controllers\AppController::class, "update_plateforme"])->name('plateforme_update');
@@ -76,13 +87,21 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
 
     Route::prefix('cursus')->group(function () {
         Route::get('list',[App\Http\Controllers\CursusController::class, 'admin_list_cursus'] )->name('admin_cursus_index');
-        Route::post('save',[App\Http\Controllers\CategoryController::class , 'admin_cursus_save'] )->name('admin_cursus_save');
+        Route::post('save',[App\Http\Controllers\CursusController::class , 'admin_cursus_save'] )->name('admin_cursus_save');
+        Route::get('delete/{id}',[App\Http\Controllers\CursusController::class , 'deleteCursus'] )->name('admin_cursus_delete');
+
     });
 
+    Route::get('tranches', [App\Http\Controllers\SubscriptionController::class, 'admin_list_tranche'] )->name('admin_list_tranche');
     Route::get('subscription-list', [App\Http\Controllers\SubscriptionController::class, 'admin_subscription'] )->name('admin_subscription_list');
     Route::get('subscription-show/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_subscription_show'] )->name('admin_subscription_show');
     Route::get('confirm-pay/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_tranche_pay'] )->name('admin_confirm_pay');
     Route::get('confirm-livraison/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_livrer'])->name('admin_livrer');
+
+    Route::prefix('subscription')->group(function () {
+        Route::get('finish/{id}', [App\Http\Controllers\SubscriptionController::class, 'finish_subscription_admin'])->name('finish_subscription_admin');
+        Route::get('stopping/{id}', [App\Http\Controllers\SubscriptionController::class, 'stop_subscription_admin'])->name('stop_subscription_admin');
+    });
 
     Route::prefix('collect-dons')->group(function () {
         Route::get('list', [App\Http\Controllers\CollectController::class, 'admin_dons_collects'])->name('admin_dons_index');
@@ -99,3 +118,4 @@ Route::get('truncate-notifications', [App\Http\Controllers\AppController::class,
 
 
 Route::get('test', function(){ return view('test'); });
+Route::get('test2', [App\Http\Controllers\AppController::class, 'test2'] )->name('test2');

@@ -1,5 +1,7 @@
 <x-user-layout>
 
+    <x-slot name="title" >Les questions fréquentes</x-slot>
+
     <x-slot name="pack_make">
         active
     </x-slot>
@@ -12,13 +14,13 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="card rounded-0 bg-soft-success mx-n4 mt-n4 border-top">
+                <div class="card rounded-0 bg-soft-info mx-n4 mt-n4 border-top">
                     <div class="px-4">
                         <div class="row">
                             <div class="col-xxl-12 align-self-center">
                                 <div class="py-4">
-                                    <h4 class="display-6 coming-soon-text">Frequently asked questions</h4>
-                                    <p class="text-success fs-15 mt-3">If you can not find answer to your question in our FAQ, you can always contact us or email us. We will answer you shortly!</p>
+                                    <h4 class="display-6 coming-soon-text">Les questions fréquentes</h4>
+                                    <p class="text-success fs-15 mt-3">Retrouver ici les inquiétitudes deja relévés par des utilisateurs!</p>
                                     <div class="hstack flex-wrap gap-2">
                                         <button type="button" class="btn btn-primary btn-label rounded-pill"><i class="ri-mail-line label-icon align-middle rounded-pill fs-16 me-2"></i> Contactez nous par mail</button>
                                     </div>

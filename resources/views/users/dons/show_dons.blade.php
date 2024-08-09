@@ -1,5 +1,9 @@
 <x-user-layout>
 
+    <x-slot name="title" >
+        Faire un dons - {{$collect->title}}
+    </x-slot>
+
     <x-slot name="pack_make">
         active
     </x-slot>
@@ -11,6 +15,7 @@
     @push('styles')
         <script src="https://cdn.kkiapay.me/k.js"></script>
         <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+        <script src="https://api.feexpay.me/feexpay-javascript-sdk/index.js"></script>
     @endpush
 
 
@@ -110,11 +115,36 @@
                              <!-- ene col -->
                              <div class="col-xl-3 col-lg-4">
 
-                                <div class="d-grid gap-1" >
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="form-group mb-2">
+                                            <label for="my-input">Nom & Prénoms</label>
+                                            <input id="my-input" class="form-control" type="text" name="name" value="{{Auth::user()->lastname." ".Auth::user()->firstname}}" >
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="my-input">Montant</label>
+                                            <input  class="form-control" id="donate_price" type="number"  onchange="updatePrice()" value="" min="100" name="amount">
+                                            <i class="text-primary">Minimu: 100 Fcfa</i>
+                                            <input type="hidden" id="priceField" name="price" value="200">
+                                        </div>
+                                        <div style="display: none" class="text-danger" id="msg">
+                                            Veuillez entrer un montant suppérieur à 200 Fcfa
+                                        </div>
+                                        <!--button class="btn btn-lg btn-success mt-4" onclick="valideDonate()" >Valider mon dons</button-->
+                                        <div class="mt-4 d-grid gap-1">
+
+                                            <button class="btn btn-success" id='button_payee_tranche2' >
+                                                Valider mon dons
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--div class="d-grid gap-1" >
                                     <button class="btn btn-success btn-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                                         Faire un don aussi
                                     </button>
-                                </div>
+                                </div-->
 
                                 <div class="card mt-4">
                                     <div class="card-body">
@@ -144,6 +174,9 @@
                                     <div class="card-body">
                                         <div class="text-muted">
                                             <h6 class="mb-3 fw-semibold text-uppercase">Description</h6>
+
+                                            <div id='button_payee'></div>
+                                            <div class="render"></div>
 
                                             <div>
                                                 {!!  $collect->description !!}
@@ -247,32 +280,9 @@
 
 
 
-    @push('modals')
-        <div class="offcanvas offcanvas-start show"  tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Laisser votre dons</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div class="form-group mb-2">
-                    <label for="my-input">Nom & Prénoms</label>
-                    <input id="my-input" class="form-control" type="text" name="name" value="{{Auth::user()->lastname." ".Auth::user()->firstname}}" >
-                </div>
-                <div class="form-group mb-2">
-                    <label for="my-input">Montant</label>
-                    <input  class="form-control" id="donate_price" type="number" value="200" min="100" name="amount">
-                    <i class="text-primary">Minimu: 100 Fcfa</i>
-                </div>
-                <div style="display: none" class="text-danger" id="msg">
-                    Veuillez entrer un montant suppérieur à 200 Fcfa
-                </div>
-                <button class="btn btn-lg btn-success mt-4" onclick="valideDonate()" >Valider mon dons</button>
-            </div>
-        </div>
-    @endpush
 
     @push('scripts')
-    <script>
+    <!--script>
 
         function valideDonate(){
             var price = document.getElementById('donate_price').value;
@@ -299,7 +309,39 @@
             }
 
         }
+    </script-->
+
+    <script>
+         function updatePrice() {
+            var don_id = "{{$collect->id}}";
+            var price = document.getElementById('donate_price').value;
+            document.getElementById('priceField').value = price;
+
+            if(price >= 20){
+
+                var call_back_url = "{{ route('donate_paiement', ['id' => '__id__', 'amount' => '__amount__']) }}";
+
+                call_back_url = call_back_url.replace('__id__', don_id).replace('__amount__', price);
+
+                FeexPayButton.init("render",{
+                    id: "{{env('FEEX_SHOP_ID')}}",
+                    amount: price,
+                    token: "{{env('FEEX_TOKEN')}}",
+
+                    callback_url: call_back_url,
+                    mode: "{{env('FEEX_MODE')}}",
+                    custom_button:  true,
+                    id_custom_button: 'button_payee_tranche2',
+                    description: "{{$collect->title}}",
+                    case: '',
+                });
+            }else{
+                alert("Montant doit etre supérieur à 200 Fcfa");
+            }
+
+        }
     </script>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -317,5 +359,6 @@
          });
     </script>
     @endpush
+
 
 </x-user-layout>

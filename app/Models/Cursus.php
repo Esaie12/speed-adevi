@@ -21,6 +21,7 @@ class Cursus extends Model
         'montant_inscription',
         'montant_cursus',
         'classes',
+        'deleted_at'
     ];
 
     public function category()

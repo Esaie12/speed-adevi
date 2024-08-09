@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Analytics | Velzon - Admin & Dashboard Template</title>
+    <title>{{env('APP_NAME')}} | {{$title ?? ''}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -27,6 +27,7 @@
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/toastr/toastr.css') }}" rel="stylesheet" />
 
 </head>
 
@@ -334,6 +335,7 @@
         <div class="main-content">
 
             <div class="page-content">
+                <div id="render"></div>
                 {{$slot}}
                 <!-- container-fluid -->
             </div>
@@ -404,6 +406,33 @@
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
     @stack('modals')
+
+    <script src="{{ asset('assets/libs/toastr/toastr.min.js') }}"></script>
+
+    @if (Session::has('success') && session('success') != 'success')
+        <script>
+            toastr.success(`{{ session('success') }}`, 'Succès', {
+                "closeButton": true,
+                "progressBar": true,
+                "showDuration": "5000",
+                "timeOut": "5000",
+                positionClass: 'toast-top-right'
+            })
+        </script>
+    @endif
+
+    @if (Session::has('error'))
+        <script>
+            toastr.error(`{{ session('error') }}`, 'Erreur', {
+                "closeButton": true,
+                "progressBar": true,
+                "showDuration": "5000",
+                "timeOut": "5000",
+                positionClass: 'toast-top-right'
+            })
+        </script>
+    @endif
+
 </body>
 
 </html>

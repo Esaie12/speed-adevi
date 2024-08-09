@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Cursus;
+use Illuminate\Support\Carbon;
 
 class CategoryController extends Controller
 {
@@ -96,6 +98,39 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return back()->with('error',"Une erreur est subvenue");
         }
+    }
+
+    public function final_pack($id){
+        $cursus_id = $id;
+
+        $subs = Cursus::find( $cursus_id);
+
+        $details = $this->generateSubscriptionDates( now(), $subs->duree_mensuelle ,  $subs->forfait_mensuel ,  $subs->montant_cursus  );
+
+        return view('users.pack-final',compact('subs','details'));
+    }
+
+
+    public function generateSubscriptionDates($startDate, $months, $forfait, $montantTotal) {
+        // Créer une instance Carbon à partir de la date de début fournie
+        $start_date = Carbon::parse($startDate);
+        $current_date = $start_date->copy();
+
+        $subscription_dates = [];
+        $total_montant = 0;
+
+        while ($total_montant < $montantTotal) {
+            $subscription_dates[] = [
+                'date' => $current_date->toDateString(),
+                'formatted_date' => $current_date->translatedFormat('l j F Y'),
+                'forfait' => $forfait,
+                'total_montant' => $total_montant
+            ];
+            $current_date->addMonths($months);
+            $total_montant += $forfait;
+        }
+
+        return $subscription_dates;
     }
 
 

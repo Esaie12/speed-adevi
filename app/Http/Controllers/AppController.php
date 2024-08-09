@@ -11,6 +11,7 @@ use App\Models\Cursus;
 use App\Models\Subscription;
 use App\Models\Tranche;
 use App\Models\Plateforme;
+use Illuminate\Support\Facades\Http;
 
 class AppController extends Controller
 {
@@ -189,5 +190,45 @@ class AppController extends Controller
             'secret_key' => $request['secret_key'],
         ]);
         return redirect()->back()->with('success', 'Profil mis à jour avec succès.');
+    }
+
+    public function test2(Request $request){
+
+        //?id_transaction=c0e37b65-7ea6-4824-8827-f28d45de8719
+
+        // Récupérer le paramètre id_transaction depuis la requête
+        //$idTransaction = $request->input('id_transaction');
+        $idTransaction = "c0e37b65-7ea6-4824-8827-f28d45de8719";
+
+        if (!$idTransaction) {
+            return response()->json(['error' => 'ID de transaction requis'], 400);
+        }
+
+        // URL de l'API
+        $url = "https://api.feexpay.me/api/transactions/public/{$idTransaction}";
+
+        // Clé API pour l'en-tête d'autorisation
+        $apiKey = 'fp_7xP5wCj0FprPk8Xvx73Qv99OpwjMzrtaMGeBUVnSkXdMFmLJ67YqODhBCgUNZ8wT';
+
+        // Effectuer la requête GET avec l'en-tête d'autorisation
+       // try {
+            $response = Http::withHeaders([
+                'Authorization' => "Bearer $apiKey",
+            ])->get($url);
+
+            // Vérifier la réponse
+            if ($response->successful()) {
+                return $response->json();
+                /*
+                "amount",
+                "status":"SUCCESSFUL"
+                */
+            } else {
+                return response()->json(['error' => 'Erreur lors de la récupération des données'], $response->status());
+            }
+
+      /*  } catch (\Exception $e) {
+            return response()->json(['error' => 'Exception: ' . $e->getMessage()], 500);
+        }*/
     }
 }

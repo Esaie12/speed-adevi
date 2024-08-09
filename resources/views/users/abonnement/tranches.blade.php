@@ -1,8 +1,11 @@
 <x-user-layout>
 
+    <x-slot name="title" >{{$title}}</x-slot>
+
     @push('styles')
     <script src="https://cdn.kkiapay.me/k.js"></script>
         <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+        <script src="https://api.feexpay.me/feexpay-javascript-sdk/index.js"></script>
     @endpush
 
     <div class="container-fluid">
@@ -37,6 +40,8 @@
                 </div>
 
                 <div class="row">
+                    <div id='button_payee'></div>
+
                     @foreach ($tranches as $key=> $tranche)
                     <div class="col-md-4">
                         <div class="card border card-border-{{$tranche->status->color }}">
@@ -76,7 +81,7 @@
                                         @if($tranche->pay_at)
                                         Payer le <strong>{{ Carbon\Carbon::parse($tranche->pay_at)->translatedFormat('d M, Y H:i')}}</strong>
                                         @else
-                                        <a onclick="makePaiementKkiapay({{$tranche->amount}},{{$tranche->id}})" href="javascript:void(0);" class="link-primary fw-medium">
+                                        <a id='button_payee_tranche{{$tranche->id}}' onclick="makePaiementFeex({{$tranche->amount}},{{$tranche->id}})" href="javascript:void(0);" class="link-primary fw-medium">
                                             Payer maintenant<i  class="ri-arrow-right-line align-middle ms-2"></i>
                                         </a>
                                         @endif
@@ -100,26 +105,50 @@
     </div>
 
     @push('scripts')
-    <script>
+        @foreach ($tranches as $key=> $tranche)
+        @if(! $tranche->pay_at)
 
-        function makePaiementKkiapay(price, id){
-            var price = price;
+        <script>
+            var price = {{$tranche->amount}};
+            id = {{$tranche->id}};
 
             var call_back_url = "{{ route('paiement-tranche', ['id' => '__id__']) }}".replace('__id__', id);
 
-            $(function(){
-                openKkiapayWidget({
-                    amount: price,
-                    position: "right",
-                    callback: call_back_url, // Utiliser la variable globale mise à jour
-                    data: "",
-                    theme: "#23a16f",
-                    key: "85abcb60ae8311ecb9755de712bc9e4f",
-                    sandbox: "true"
-                });
+            FeexPayButton.init("render",{
+                id: "{{env('FEEX_SHOP_ID')}}",
+                amount: price,
+                token: "{{env('FEEX_TOKEN')}}",
+
+                callback_url: call_back_url,
+                mode: "{{env('FEEX_MODE')}}",
+                custom_button:  true,
+                id_custom_button: 'button_payee_tranche'+id,
+                description: "Paiement de tranche",
+                case: '',
             });
-        }
-    </script>
+        </script>
+        @endif
+        @endforeach
+
+        <script>
+            function makePaiementKkiapay(price, id){
+                var price = price;
+
+                var call_back_url = "{{ route('paiement-tranche', ['id' => '__id__']) }}".replace('__id__', id);
+
+                $(function(){
+                    openKkiapayWidget({
+                        amount: price,
+                        position: "right",
+                        callback: call_back_url, // Utiliser la variable globale mise à jour
+                        data: "",
+                        theme: "#23a16f",
+                        key: "85abcb60ae8311ecb9755de712bc9e4f",
+                        sandbox: "true"
+                    });
+                });
+            }
+        </script>
     @endpush
 
 </x-user-layout>

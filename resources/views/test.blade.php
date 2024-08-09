@@ -5,16 +5,16 @@
 
 <script>
     FeexPayButton.init("render",{
-            id: '64a7ea713a82106c499754c9',
-              amount: 500,
-              token: 'test_Hg7Kjl3ZAM63UuIUpuudD9nKuu3ZAM67Kjl3Uuhn',
-              callback:()=> "google.com",
-              callback_url: "google.com",
-              mode: 'LIVE',
-              custom_button:  true,
-              id_custom_button: 'pay',
-              description: "Test",
-              case: '',
-        });
+        id: '649c706008308c8dbd24bbb1',
+        amount: 25,
+        token: 'fp_7xP5wCj0FprPk8Xvx73Qv99OpwjMzrtaMGeBUVnSkXdMFmLJ67YqODhBCgUNZ8wT',
+
+        callback_url: "{{route('paiement',1)}}",
+        mode: 'LIVE',
+        custom_button:  true,
+        id_custom_button: 'pay',
+        description: "Test",
+        case: '',
+    });
 </script>
 
