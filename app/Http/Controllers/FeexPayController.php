@@ -27,7 +27,8 @@ class FeexPayController extends Controller
     public $api_key , $sandbox , $feex_link;
 
     public function __construct(){
-        $this->apiKey = 'fp_7xP5wCj0FprPk8Xvx73Qv99OpwjMzrtaMGeBUVnSkXdMFmLJ67YqODhBCgUNZ8wT';
+
+        $this->apiKey = env('FEEX_TOKEN');
         $this->feex_link = "https://api.feexpay.me/api/transactions/public";
         $this->sandbox = true;
 

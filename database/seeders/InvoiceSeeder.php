@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InvoiceSeeder extends Seeder
 {

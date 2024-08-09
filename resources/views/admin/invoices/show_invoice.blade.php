@@ -144,7 +144,7 @@
 
                                 <div class="hstack gap-2 justify-content-end d-print-none mt-4">
                                     <a href="javascript:window.print()" class="btn btn-success"><i class="ri-printer-line align-bottom me-1"></i> Imprimer</a>
-                                    <a href="javascript:void(0);" class="btn btn-primary"><i class="ri-download-2-line align-bottom me-1"></i>Télécharger</a>
+                                    <a href=" {{route('admin_invoice_export',encrypt($invoice->id))}}" class="btn btn-primary"><i class="ri-download-2-line align-bottom me-1"></i>Télécharger</a>
                                 </div>
                             </div>
                             <!--end card-body-->

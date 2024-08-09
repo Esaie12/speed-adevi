@@ -96,6 +96,11 @@
                                                                 Voir la facture
                                                             </a>
                                                         </li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="{{route('admin_invoice_export',encrypt($invoice->id))}}" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
+                                                                Télécharger la facture
+                                                            </a>
+                                                        </li>
                                                         <!--li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>Rapport</a></li>
                                                         <li class="dropdown-divider"></li>
                                                         <li>

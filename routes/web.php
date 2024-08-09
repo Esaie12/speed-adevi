@@ -51,8 +51,9 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
     });
 
     Route::prefix('invoices')->group(function () {
-        Route::get('list', [App\http\Controllers\InvoiceController::class , 'list_invoices_user'])->name('list_invoices_user');
-        Route::get('show/{id}', [App\http\Controllers\InvoiceController::class , 'show_invoice'])->name('user_invoice_show');
+        Route::get('list', [App\Http\Controllers\InvoiceController::class , 'list_invoices_user'])->name('list_invoices_user');
+        Route::get('show/{id}', [App\Http\Controllers\InvoiceController::class , 'show_invoice'])->name('user_invoice_show');
+        Route::get('pdf/{id}', [App\Http\Controllers\InvoiceController::class , 'export_invoice'])->name('user_invoice_export');
     });
 });
 
@@ -118,8 +119,9 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
     });
 
     Route::prefix('invoices')->group(function () {
-        Route::get('list', [App\http\Controllers\InvoiceController::class , 'list_invoices_admin'])->name('list_invoices_admin');
-        Route::get('show/{id}', [App\http\Controllers\InvoiceController::class , 'show_invoice'])->name('admin_invoice_show');
+        Route::get('list', [App\Http\Controllers\InvoiceController::class , 'list_invoices_admin'])->name('list_invoices_admin');
+        Route::get('show/{id}', [App\Http\Controllers\InvoiceController::class , 'show_invoice'])->name('admin_invoice_show');
+        Route::get('pdf/{id}', [App\Http\Controllers\InvoiceController::class , 'export_invoice'])->name('admin_invoice_export');
     });
 
 });

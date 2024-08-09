@@ -8,6 +8,8 @@ use App\Models\InvoiceItem;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+use Dompdf\Dompdf;
+
 class InvoiceController extends Controller
 {
     // Affiche la liste des factures
@@ -55,6 +57,7 @@ class InvoiceController extends Controller
     // Affiche les détails d'une facture spécifique
     public function show_invoice($id)
     {
+
         $id = decrypt($id);
         try {
             $invoice = Invoice::findOrFail($id);
@@ -69,6 +72,30 @@ class InvoiceController extends Controller
                 }
             }
             return view( $view, compact('invoice','items'));
+        } catch (\Exception $e) {
+           return back()->with('error',"Une erreur esy subvenue");
+        }
+    }
+
+    public function export_invoice($id)
+    {
+        $dompdf = new Dompdf();
+
+        $id = decrypt($id);
+        try {
+            $invoice = Invoice::findOrFail($id);
+            $items = InvoiceItem::where('invoice_id',$invoice->id)->get();
+
+            $html = view('pdf.invoice_1',compact('invoice','items'))->render();
+
+
+
+            // Set paper size and orientation
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+            return $dompdf->stream('facture-'.$invoice->reference.'.pdf');
+
         } catch (\Exception $e) {
            return back()->with('error',"Une erreur esy subvenue");
         }
