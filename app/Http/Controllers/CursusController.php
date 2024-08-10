@@ -77,4 +77,61 @@ class CursusController extends Controller
             return back()->with('error',"Une erreur est subvenue");
         }
     }
+
+    /** Modifier un cursus */
+    public function editCursus($id){
+        $id = decrypt($id);
+        try {
+            $categories = Category::whereNull('deleted_at')->get();
+            $classes = Classe::all();
+            $cursus = Cursus::findOrFail($id);
+            return view('admin.cursus.edit',compact('cursus','classes','categories'));
+        } catch (\Exception $e) {
+            return back()->with('error',"Une erreur est subvenue");
+        }
+    }
+
+
+    public function admin_cursus_update(Request $request){
+
+        $request->validate([
+            'cursus_id'=>['required','string'],
+            'classes' => 'required|array',
+            'category' => 'required|integer|exists:categories,id',
+            'title' => 'required|string|max:255',
+            'duree_year' => 'required|integer|min:1',
+            'mensuality' => 'required|numeric|min:0',
+            'amount_monthly' => 'required|numeric|min:0',
+            'inscription' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+
+        $classe_choice = [];
+        foreach ($request['classes'] as $value) {
+            $classe_choice[]= $value;
+        }
+        if( count($classe_choice) != $request['duree_year'] ){
+            return back()->with('error', "Le nombre d'année et le nombre de classe choisit sont différents");
+        }
+
+        try {
+            Cursus::findOrFail( decrypt($request->cursus_id) )->update([
+                'category_id' => $request['category'],
+                'title' =>  $request['title'],
+                'nombre_year' =>  $request['duree_year'],
+                'duree_mensuelle' =>  $request['mensuality'],
+                'forfait_mensuel' => $request['amount_monthly'],
+                'montant_inscription' =>  $request['inscription'],
+                'montant_cursus' =>  $request['amount'],
+                'classes' => json_encode($classe_choice),
+            ]);
+
+            return redirect()->route('admin_cursus_index')->with('success',"Cursus modifié avec succès");
+
+        }catch (\Exception $e){
+            return back()->with('error', "Une erreur est survenue lors de la modification du cursus.");
+        }
+
+    }
 }

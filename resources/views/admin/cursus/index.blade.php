@@ -114,8 +114,10 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><button class="dropdown-item" href="javascript:void(0);" onclick="EditInvoice(this);" data-id="25000351"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                                Modifier</button></li>
+                                                        <li>
+                                                            <a class="dropdown-item" href="{{route('admin_cursus_edit', encrypt( $cur->id) )}}" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                                Modifier</a>
+                                                        </li>
                                                         <li class="dropdown-divider"></li>
                                                         <li>
                                                             <a class="dropdown-item remove-item-btn" href="{{route('admin_cursus_delete', encrypt( $cur->id) )}}">

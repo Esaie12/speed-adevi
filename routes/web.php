@@ -95,6 +95,8 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
         Route::get('list',[App\Http\Controllers\CursusController::class, 'admin_list_cursus'] )->name('admin_cursus_index');
         Route::post('save',[App\Http\Controllers\CursusController::class , 'admin_cursus_save'] )->name('admin_cursus_save');
         Route::get('delete/{id}',[App\Http\Controllers\CursusController::class , 'deleteCursus'] )->name('admin_cursus_delete');
+        Route::get('edit/{id}',[App\Http\Controllers\CursusController::class , 'editCursus'] )->name('admin_cursus_edit');
+        Route::post('update',[App\Http\Controllers\CursusController::class , 'admin_cursus_update'] )->name('admin_cursus_update');
 
     });
 
