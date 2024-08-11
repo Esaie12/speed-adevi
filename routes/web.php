@@ -35,11 +35,11 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
     Route::get('subscription-show/{id}', [App\Http\Controllers\SubscriptionController::class, 'subscription_show'] )->name('user_subscription_show');
     Route::get('tranches', [App\Http\Controllers\SubscriptionController::class, 'user_tranches'] )->name('user_tranche');
 
-    /*
-    Route::get('paiement/{id_cursus}',  [App\Http\Controllers\PaymentController::class, 'payments'])->name('paiement');
-    Route::get('paiement-tranche',  [App\Http\Controllers\PaymentController::class, 'payments_tranche'])->name('paiement-tranche');
-    Route::get('make-donate-paiement', [App\Http\Controllers\PaymentController::class, 'payments_donate'])->name('donate_paiement');
-    */
+
+    Route::get('paiement-kkia/{id_cursus}',  [App\Http\Controllers\PaymentController::class, 'payments'])->name('paiement_kkia');
+    Route::get('paiement-tranche-kkia',  [App\Http\Controllers\PaymentController::class, 'payments_tranche'])->name('paiement-tranche-kkia');
+    Route::get('make-donate-paiement-kkia', [App\Http\Controllers\PaymentController::class, 'payments_donate'])->name('donate_paiement_kkia');
+
 
     Route::get('paiement/{id_cursus}',  [App\Http\Controllers\FeexPayController::class, 'payments'])->name('paiement');
     Route::get('paiement-tranche',  [App\Http\Controllers\FeexPayController::class, 'payments_tranche'])->name('paiement-tranche');

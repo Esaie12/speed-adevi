@@ -87,20 +87,36 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div id='button_payee'></div>
-                <div class="ms-4 d-grid gap-1">
-                    <button class="btn btn-success" id='button_payee_tranche' >
-                        Payer par tranche
-                    </button>
+                <div>
+                    <b>Payer avec FeexPay</b>
+                    <div id='button_payee'></div>
+                    <div class="d-grid gap-1">
+                        <button class="btn btn-success" id='button_payee_tranche' >
+                            Payer par tranche
+                        </button>
+                    </div>
+
+                    <div id='button_payee2'></div>
+                    <div class="mt-2 d-grid gap-1">
+                        <button class="btn btn-primary" id='button_payee_total' >
+                            Payer la totalité
+                        </button>
+                    </div>
                 </div>
 
-                <div id='button_payee2'></div>
-                <div class="ms-4 mt-2 d-grid gap-1">
-                    <button class="btn btn-primary" id='button_payee_total' >
-                        Payer la totalité
-                    </button>
+                <div class="mt-4">
+                    <b>Payer avec kkiaPay</b>
+                    <div class="mt-2 d-grid gap-1" >
+                        <button class="btn btn-success" onclick="makePaiementKkiapay({{$subs->forfait_mensuel + $subs->montant_inscription}})" >Payer par acompte</button>
+                    </div>
+                    <div class="mt-2 d-grid gap-1" >
+                        <button class="btn btn-primary" onclick="makePaiementKkiapay({{$subs->montant_cursus + $subs->montant_inscription}})" >Payer en totalité </button>
+                    </div>
                 </div>
+
             </div>
+
+
 
         </div>
 
@@ -126,7 +142,35 @@
     @endphp
 
 
-    @push('scripts')  @endpush
+    @push('scripts')
+    <script>
+        /*// Variable globale pour l'URL de retour
+        var call_back_url = "$this->url_back";
+
+        // Écouteur d'événement global pour 'change_category'
+        window.addEventListener("choiceCursus", (e) => {
+            setTimeout(() => {
+                call_back_url = e.detail; // Mettre à jour l'URL de retour
+            }, 0);
+        });*/
+
+        function makePaiementKkiapay(price){
+            var price = price;
+
+            $(function(){
+                openKkiapayWidget({
+                    amount: price,
+                    position: "right",
+                    callback:  "{{ route('paiement_kkia', $subs->id) }}", // Utiliser la variable globale mise à jour
+                    data: "",
+                    theme: "#23a16f",
+                    key: "85abcb60ae8311ecb9755de712bc9e4f",
+                    sandbox: "true"
+                });
+            });
+        }
+    </script>
+    @endpush
 
     @push('modals')  @endpush
 

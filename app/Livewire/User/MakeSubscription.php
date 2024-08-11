@@ -20,7 +20,7 @@ class MakeSubscription extends Component
     public function mount($category_id){
         $this->category_id = $category_id;
 
-        $this->cursus = Cursus::where('category_id',$this->category_id )->get();
+        $this->cursus = Cursus::whereNull('deleted_at')->where('category_id',$this->category_id )->get();
 
 
     }

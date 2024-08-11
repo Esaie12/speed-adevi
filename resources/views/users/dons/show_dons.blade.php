@@ -130,13 +130,19 @@
                                         <div style="display: none" class="text-danger" id="msg">
                                             Veuillez entrer un montant suppérieur à 200 Fcfa
                                         </div>
-                                        <!--button class="btn btn-lg btn-success mt-4" onclick="valideDonate()" >Valider mon dons</button-->
-                                        <div class="mt-4 d-grid gap-1">
 
+                                        <div class="mt-4 d-grid gap-1">
                                             <button class="btn btn-success" id='button_payee_tranche2' >
                                                 Valider mon dons
                                             </button>
+                                            <i>Avec Feexpay</i>
                                         </div>
+
+                                        <div class="mt-4 d-grid gap-1">
+                                            <button class="btn btn-primary" onclick="valideDonate()" >Valider mon dons</button>
+                                            <i>Avec Kkipay</i>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -282,14 +288,14 @@
 
 
     @push('scripts')
-    <!--script>
+    <script>
 
         function valideDonate(){
             var price = document.getElementById('donate_price').value;
             var don_id = "{{$collect->id}}";
 
             if(price >=200 ){
-                var call_back_url = "{{ route('donate_paiement', ['id' => '__id__', 'amount' => '__amount__']) }}";
+                var call_back_url = "{{ route('donate_paiement_kkia', ['id' => '__id__', 'amount' => '__amount__']) }}";
 
                 call_back_url = call_back_url.replace('__id__', don_id).replace('__amount__', price);
 
@@ -305,11 +311,11 @@
                     });
                 });
             }else{
-                //$('#msg').hide():
+                alert("Montant doit etre supérieur à 200 Fcfa");
             }
 
         }
-    </script-->
+    </script>
 
     <script>
          function updatePrice() {

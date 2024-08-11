@@ -81,9 +81,19 @@
                                         @if($tranche->pay_at)
                                         Payer le <strong>{{ Carbon\Carbon::parse($tranche->pay_at)->translatedFormat('d M, Y H:i')}}</strong>
                                         @else
-                                        <a id='button_payee_tranche{{$tranche->id}}' onclick="makePaiementFeex({{$tranche->amount}},{{$tranche->id}})" href="javascript:void(0);" class="link-primary fw-medium">
-                                            Payer maintenant<i  class="ri-arrow-right-line align-middle ms-2"></i>
-                                        </a>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <a id='button_payee_tranche{{$tranche->id}}' onclick="makePaiementFeex({{$tranche->amount}},{{$tranche->id}})" href="javascript:void(0);" class="link-primary fw-medium">
+                                                    Payer maintenant<i  class="ri-arrow-right-line align-middle ms-2"></i> Feexpay
+                                                </a>
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <a  onclick="makePaiementKkiapay({{$tranche->amount}},{{$tranche->id}})" href="javascript:void(0);" class="link-primary fw-medium">
+                                                    Payer maintenant<i  class="ri-arrow-right-line align-middle ms-2"></i> Kkiapay
+                                                </a>
+                                            </div>
+                                        </div>
+
                                         @endif
                                     </div>
                                 </div>
@@ -134,7 +144,7 @@
             function makePaiementKkiapay(price, id){
                 var price = price;
 
-                var call_back_url = "{{ route('paiement-tranche', ['id' => '__id__']) }}".replace('__id__', id);
+                var call_back_url = "{{ route('paiement-tranche-kkia', ['id' => '__id__']) }}".replace('__id__', id);
 
                 $(function(){
                     openKkiapayWidget({
