@@ -1,5 +1,9 @@
 <x-admin-layout>
 
+    <x-slot name="title" >
+        Les cursus disponibles
+    </x-slot>
+
     <x-slot name="admin_category_index" >active</x-slot>
 
     @push('styles')

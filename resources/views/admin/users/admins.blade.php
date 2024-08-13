@@ -1,5 +1,9 @@
 <x-admin-layout>
 
+    <x-slot name="title" >
+        Les administrateurs
+    </x-slot>
+
     <x-slot name="admin_dashboard" >active</x-slot>
 
     @push('styles')

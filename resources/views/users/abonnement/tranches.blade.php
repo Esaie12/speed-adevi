@@ -92,6 +92,24 @@
                                                     Payer maintenant<i  class="ri-arrow-right-line align-middle ms-2"></i> Kkiapay
                                                 </a>
                                             </div>
+                                            <div class="col-12 mt-2">
+                                                <form class="" action="{{ route('paiement-tranche-feda') }}" method="GET">
+                                                    <input type="hidden" name="amount" value="{{$tranche->amount}}">
+                                                    <input type="hidden" name="id" value="{{ $tranche->id}}" >
+                                                    <script
+                                                      src="https://cdn.fedapay.com/checkout.js?v=1.1.7"
+                                                      data-public-key="{{env('FEDA_PUBLIC')}}"
+                                                      data-button-text=" Payer maintenant Fedapay"
+                                                       data-button-class="link-primary fw-medium"
+                                                      data-transaction-amount="{{$tranche->amount}}"
+                                                      data-transaction-description="Paiement d'une tranche"
+                                                      data-currency-iso="XOF"
+                                                      data-widget-description="Your 100% african store"
+                                                      data-widget-image="https://cdn.fedapay.com/img/marketplace.svg"
+                                                      data-widget-title="Afrimarket">
+                                                    </script>
+                                                </form>
+                                            </div>
                                         </div>
 
                                         @endif
@@ -159,6 +177,8 @@
                 });
             }
         </script>
+
+
     @endpush
 
 </x-user-layout>

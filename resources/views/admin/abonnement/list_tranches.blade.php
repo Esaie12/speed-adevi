@@ -1,6 +1,6 @@
 <x-admin-layout>
 
-    <x-slot name="tite" >
+    <x-slot name="title" >
         Les différentes tranches
     </x-slot>
 
@@ -153,11 +153,6 @@
                                                         <i class="ri-more-fill align-middle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end" style="">
-                                                        <li>
-                                                            <a class="dropdown-item" href="{{route('admin_subscription_show',encrypt($tranche->id))}}" ><i class="ri-eye-fill align-bottom me-2 text-muted"></i>
-                                                                Voir l'abonnement
-                                                            </a>
-                                                        </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>Rapport</a></li>
                                                         <li class="dropdown-divider"></li>
                                                         <li>

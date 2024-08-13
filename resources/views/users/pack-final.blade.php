@@ -114,6 +114,46 @@
                     </div>
                 </div>
 
+                <div class="mt-4">
+                    <b>Payer avec Fedapay</b>
+                    <div class="mt-2">
+                        <form  class=" d-grid gap-1" action="{{ route('paiement_feda', $subs->id) }}" method="GET">
+                            <input type="hidden" name="amount" value="{{$subs->forfait_mensuel + $subs->montant_inscription}}">
+                            <script
+                              src="https://cdn.fedapay.com/checkout.js?v=1.1.7"
+                              data-public-key="{{env('FEDA_PUBLIC')}}"
+                              data-button-text="Payer par accompte"
+                               data-button-class="btn btn-success"
+                              data-transaction-amount="{{$subs->forfait_mensuel + $subs->montant_inscription}}"
+                              data-transaction-description="Paiement d'un abonnement"
+                              data-currency-iso="XOF"
+                              data-widget-description="Your 100% african store"
+                              data-widget-image="https://cdn.fedapay.com/img/marketplace.svg"
+                              data-widget-title="Afrimarket">
+                            </script>
+                        </form>
+                    </div>
+
+                    <div class="mt-2">
+                        <form class=" d-grid gap-1" action="{{ route('paiement_feda', $subs->id) }}" method="GET">
+                            <input type="hidden" name="amount" value="{{$subs->montant_cursus + $subs->montant_inscription}}">
+                            <script
+                              src="https://cdn.fedapay.com/checkout.js?v=1.1.7"
+                              data-public-key="{{env('FEDA_PUBLIC')}}"
+                              data-button-text="Payer la totalité"
+                               data-button-class="btn btn-primary"
+                              data-transaction-amount="{{$subs->montant_cursus + $subs->montant_inscription}}"
+                              data-transaction-description="Paiement d'un abonnement"
+                              data-currency-iso="XOF"
+                              data-widget-description="Your 100% african store"
+                              data-widget-image="https://cdn.fedapay.com/img/marketplace.svg"
+                              data-widget-title="Afrimarket">
+                            </script>
+                        </form>
+                    </div>
+
+                </div>
+
             </div>
 
 
@@ -170,6 +210,9 @@
             });
         }
     </script>
+
+
+
     @endpush
 
     @push('modals')  @endpush

@@ -1,6 +1,6 @@
 <x-admin-layout>
 
-    <x-slot name="tite" >
+    <x-slot name="title" >
         Les abonnements
     </x-slot>
 

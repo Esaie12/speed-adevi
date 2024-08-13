@@ -143,6 +143,11 @@
                                             <i>Avec Kkipay</i>
                                         </div>
 
+                                        <div class="mt-4 d-grid gap-1">
+                                            <button class="btn btn-warning"  id="pay-btn">Valider mon dons</button>
+                                            <i>Avec Fedapay</i>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -348,6 +353,29 @@
         }
     </script>
 
+    <script type="text/javascript">
+        price = document.getElementById('donate_price').value;
+        var don_id2 = "{{$collect->id}}";
+        var call_back_url2 = "{{ route('donate_paiement_feda', ['id' => '__id__', 'amount' => '__amount__']) }}";
+
+        call_back_url2 = call_back_url2.replace('__id__', don_id2).replace('__amount__', price);
+
+        FedaPay.init('#pay-btn', {
+            public_key: "{{env('FEDA_PUBLIC')}}",
+            transaction: {
+            amount: 3000,
+            description: 'Buy my product'
+            },
+            onComplete: function({ reason, transaction }) {
+                // Vérifiez si le paiement est complété
+                if (reason === FedaPay.CHECKOUT_COMPLETED) {
+                    window.location.href = call_back_url2 ; // Remplacez '/page-x' par l'URL de votre choix
+                } else if (reason === FedaPay.DIALOG_DISMISSED) {
+                    console.log('Le paiement a été annulé ou le dialogue a été fermé.');
+                }
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

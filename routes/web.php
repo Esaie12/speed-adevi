@@ -40,6 +40,10 @@ Route::middleware(['auth',UserControl::class , 'verified' , CompleteProfil::clas
     Route::get('paiement-tranche-kkia',  [App\Http\Controllers\PaymentController::class, 'payments_tranche'])->name('paiement-tranche-kkia');
     Route::get('make-donate-paiement-kkia', [App\Http\Controllers\PaymentController::class, 'payments_donate'])->name('donate_paiement_kkia');
 
+    Route::get('paiement-feda/{id_cursus}',  [App\Http\Controllers\FedaPayController::class, 'payments'])->name('paiement_feda');
+    Route::get('paiement-tranche-feda',  [App\Http\Controllers\FedaPayController::class, 'payments_tranche'])->name('paiement-tranche-feda');
+    Route::get('make-donate-paiement-feda', [App\Http\Controllers\FedaPayController::class, 'payments_donate'])->name('donate_paiement_feda');
+
 
     Route::get('paiement/{id_cursus}',  [App\Http\Controllers\FeexPayController::class, 'payments'])->name('paiement');
     Route::get('paiement-tranche',  [App\Http\Controllers\FeexPayController::class, 'payments_tranche'])->name('paiement-tranche');

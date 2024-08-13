@@ -1,5 +1,9 @@
 <x-admin-layout>
 
+    <x-slot name="title" >
+        Modifier un administrateur
+    </x-slot>
+
     <x-slot name="admin_category_index" >active</x-slot>
 
     @push('styles')
