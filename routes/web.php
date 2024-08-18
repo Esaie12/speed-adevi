@@ -113,6 +113,7 @@ Route::middleware(['auth', AdminControl::class ])->prefix('admin')->group(functi
     Route::prefix('subscription')->group(function () {
         Route::get('finish/{id}', [App\Http\Controllers\SubscriptionController::class, 'finish_subscription_admin'])->name('finish_subscription_admin');
         Route::get('stopping/{id}', [App\Http\Controllers\SubscriptionController::class, 'stop_subscription_admin'])->name('stop_subscription_admin');
+        Route::get('reactivaion/{id}', [App\Http\Controllers\SubscriptionController::class, 'reactiver_subscription_admin'])->name('reactiver_subscription_admin');
     });
 
     Route::prefix('collect-dons')->group(function () {

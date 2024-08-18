@@ -180,7 +180,7 @@
                                         <div class="col-lg-4">
                                             <div class="mb-3">
                                                 <label for="zipcodeInput" class="form-label">Adresse</label>
-                                                <input type="text" class="form-control" placeholder="Entrer votre adresse" name="adresse" value="{{old('adresse',Auth::user()->adresse)}}">
+                                                <input type="text" class="form-control" placeholder="Entrer votre adresse" name="adresse" value="{{old('adresse',Auth::user()->address)}}">
                                                 @error('adresse')
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror

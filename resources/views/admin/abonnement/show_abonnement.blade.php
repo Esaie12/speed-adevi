@@ -85,11 +85,11 @@
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled vstack gap-2 fs-13 mb-0">
-                            <li class="fw-medium fs-14">Joseph Parker</li>
-                            <li>+(256) 245451 451</li>
-                            <li>2186 Joyce Street Rocky Mount</li>
-                            <li>New York - 25645</li>
-                            <li>United States</li>
+                            <li class="fw-medium fs-14">{{$abonnement->user->lastname." ".$abonnement->user->firstname}}</li>
+                            <li>{{$abonnement->user->phone}}</li>
+                            <li>{{$abonnement->user->address}}</li>
+                            <li>{{$abonnement->user->country}} {{$abonnement->user->department}}</li>
+                            <li>{{$abonnement->user->website}}</li>
                         </ul>
                     </div>
                 </div>
@@ -114,6 +114,7 @@
                                     <tr>
                                         <th scope="col">Classe</th>
                                         <th scope="col">Montant</th>
+                                        <th scope="col">Statistique</th>
                                         <th scope="col">Statut</th>
                                         <th scope="col" class="text-end">Actions</th>
                                     </tr>
@@ -129,6 +130,12 @@
                                             </div>
                                         </td>
                                         <td> --- </td>
+                                        <td>
+                                            @php
+                                            $stats =  app('App\Http\Controllers\AppController')->getTranchesAttribute($classe->id);
+                                            @endphp
+                                            {{ $stats['payer']." Payées sur ".$stats['payerNon'] }}
+                                        </td>
                                         <td>
                                             <span class="badge badge-soft-{{$classe->status->color }} text-uppercase">{{$classe->status->title }}</span>
                                         </td>

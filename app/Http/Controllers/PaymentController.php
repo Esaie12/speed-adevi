@@ -111,12 +111,22 @@ class PaymentController extends Controller
 
             $les_classes = Classe::whereIn('id', $tab )->get();
 
+            $tab_tranches=[];
 
             foreach ($les_classes as $class) {
+                $les_tr_classes = Tranche::where('subscription_id',$subscription->id)
+                ->where('classe_id',$class->id )->get(['id']);
+
+                foreach ($les_tr_classes as  $value) {
+                    $tab_tranches[] = $value->id;
+                }
+
                 SubscriptionClasse::create([
                     'classe_id'=> $class->id,
                     'subscription_id'=>  $subscription->id,
+                    'tranches'=> json_encode($tab_tranches),
                 ]);
+                $tab_tranches=[];
             }
 
             //Créer maintenant la facture

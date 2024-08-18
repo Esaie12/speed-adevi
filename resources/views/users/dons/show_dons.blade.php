@@ -157,25 +157,7 @@
                                     </button>
                                 </div-->
 
-                                <div class="card mt-4">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-4">Mot clés</h5>
-                                        <div class="d-flex flex-wrap gap-2 fs-16">
-                                            @php
-                                            $tags=[];
-                                            if($collect->tags){
-                                                $tags = json_decode($collect->tags);
-                                            }
-                                            @endphp
-                                            @foreach ($tags as $value)
-                                            <div class="badge fw-medium badge-soft-secondary">{{$value}}</div>
-                                            @endforeach
 
-                                        </div>
-                                    </div>
-                                    <!-- end card body -->
-                                </div>
-                                <!-- end card -->
 
                             </div>
                             <!-- end col -->

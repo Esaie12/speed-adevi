@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Cursus;
 use App\Models\Subscription;
+use App\Models\SubscriptionClasse;
 use App\Models\Tranche;
 use App\Models\Plateforme;
 use Illuminate\Support\Facades\Http;
@@ -95,7 +96,7 @@ class AppController extends Controller
             'website' => $request['website'],
             'country' => $request['country'],
             'department' => $request['department'],
-            'adresse' => $request['adresse'],
+            'address' => $request['adresse'],
             'others' => $request['others'],
             'percentage'=> 100,
         ]);
@@ -231,4 +232,22 @@ class AppController extends Controller
             return response()->json(['error' => 'Exception: ' . $e->getMessage()], 500);
         }*/
     }
+
+
+    public function getTranchesAttribute($id_line)
+    {
+        $sb = SubscriptionClasse::find($id_line);
+
+        $tranches = json_decode($sb->tranches, true);
+
+        // Récupérer le nombre de tranches ayant le statut 1
+        $payer = Tranche::whereIn('id', $tranches)->whereNotNull('pay_at')->count();
+        $payerNon = Tranche::whereIn('id', $tranches)->whereNull('pay_at')->count();
+
+        return [
+            'payer' => $payer,
+            'payerNon' => $payerNon,
+        ];
+    }
+
 }

@@ -36,7 +36,7 @@ class CursusSeeder extends Seeder
                 'forfait_mensuel' => 15000,
                 'montant_inscription' => 5000,
                 'montant_cursus' => 240000,
-                'classes' => json_encode([8, 9, 10, 11]),
+                'classes' => json_encode([ 9, 10, 11, 12]),
             ],
             [
                 'category_id' => 1,
@@ -47,7 +47,7 @@ class CursusSeeder extends Seeder
                 'forfait_mensuel' => 15000,
                 'montant_inscription' => 5000,
                 'montant_cursus' => 180000,
-                'classes' => json_encode([12, 13, 14]),
+                'classes' => json_encode([ 13, 14, 15]),
             ],
             [
                 'category_id' => 2,
@@ -58,18 +58,18 @@ class CursusSeeder extends Seeder
                 'forfait_mensuel' => 15000,
                 'montant_inscription' => 5000,
                 'montant_cursus' => 420000,
-                'classes' => json_encode([8, 9, 10, 11, 12, 13, 14]),
+                'classes' => json_encode([ 9, 10, 11, 12, 13, 14,15]),
             ],
             [
                 'category_id' => 2,
                 'title' => "CP en 3ème",
                 //'slug' => Str::slug('Cursus Business') . '-' . Str::random(6),
-                'nombre_year' => 10,
+                'nombre_year' => 9,
                 'duree_mensuelle' => 4,
                 'forfait_mensuel' => 9625,
                 'montant_inscription' => 10000,
-                'montant_cursus' => 390000,
-                'classes' => json_encode([3, 4, 5, 6, 7, 8, 9, 10, 11]),
+                'montant_cursus' => 346500,
+                'classes' => json_encode([ 4, 5, 6, 7, 8, 9, 10, 11,12]),
             ],
             [
                 'category_id' => 2,
@@ -79,8 +79,8 @@ class CursusSeeder extends Seeder
                 'duree_mensuelle' => 4,
                 'forfait_mensuel' => 9000,
                 'montant_inscription' => 13000,
-                'montant_cursus' => 440000,
-                'classes' => json_encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
+                'montant_cursus' => 432000,
+                'classes' => json_encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]),
             ],
             [
                 'category_id' => 2,
@@ -90,8 +90,8 @@ class CursusSeeder extends Seeder
                 'duree_mensuelle' => 4,
                 'forfait_mensuel' => 10950,
                 'montant_inscription' => 5600,
-                'montant_cursus' => 570000,
-                'classes' => json_encode([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),
+                'montant_cursus' => 569400,
+                'classes' => json_encode([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
             ],
             [
                 'category_id' => 2,
@@ -101,8 +101,8 @@ class CursusSeeder extends Seeder
                 'duree_mensuelle' => 4,
                 'forfait_mensuel' => 10000,
                 'montant_inscription' => 10250,
-                'montant_cursus' => 620000,
-                'classes' => json_encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]),
+                'montant_cursus' => 600000,
+                'classes' => json_encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
             ],
         ];
 

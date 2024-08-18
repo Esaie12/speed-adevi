@@ -24,11 +24,22 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'lastname' => $this->faker->lastName,
+            'firstname' => $this->faker->firstName,
+            'address' => $this->faker->address,
+            'phone' => $this->faker->phoneNumber,
+            'avatar' => $this->faker->imageUrl(100, 100, 'people'), // Image aléatoire
+            'role' => $this->faker->randomElement(['admin', 'user']), // Exemple de rôles
+            'account_id' => "US".date('Y').$this->faker->numberBetween(1, 100),
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => Hash::make('P@ssw0rd'), // Mot de passe par défaut
+            'profession' => $this->faker->jobTitle,
+            'website' => $this->faker->url,
+            'country' => $this->faker->country,
+            'department' => "Department",
+            'others' => $this->faker->sentence,
+            'actif' => $this->faker->boolean,
+            'last_login' => $this->faker->dateTimeThisYear,
         ];
     }
 
@@ -40,5 +51,53 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+
+    public function administrateur(): static
+    {
+        return  $this->state(fn (array $attributes) => [
+            'lastname' => $this->faker->lastName,
+            'firstname' => $this->faker->firstName,
+            'address' => $this->faker->address,
+            'phone' => $this->faker->phoneNumber,
+            'avatar' => $this->faker->imageUrl(100, 100, 'people'), // Image aléatoire
+            'role' => 'admin', // Exemple de rôles
+            'account_id' => "AD".date('Y').$this->faker->numberBetween(1, 100),
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => Hash::make('P@ssw0rd'), // Mot de passe par défaut
+            'profession' => $this->faker->jobTitle,
+            'website' => $this->faker->url,
+            'country' => $this->faker->country,
+            'department' => "Department",
+            'others' => $this->faker->sentence,
+            'actif' => $this->faker->boolean,
+            'last_login' => $this->faker->dateTimeThisYear,
+        ]);
+
+    }
+
+    public function customer(): static
+    {
+        return  $this->state(fn (array $attributes) => [
+            'lastname' => $this->faker->lastName,
+            'firstname' => $this->faker->firstName,
+            'address' => $this->faker->address,
+            'phone' => $this->faker->phoneNumber,
+            'avatar' => $this->faker->imageUrl(100, 100, 'people'), // Image aléatoire
+            'role' => 'user', // Exemple de rôles
+            'account_id' => "US".date('Y').$this->faker->numberBetween(1, 100),
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => Hash::make('P@ssw0rd'), // Mot de passe par défaut
+            'profession' => $this->faker->jobTitle,
+            'website' => $this->faker->url,
+            'country' => $this->faker->country,
+            'department' => "Department",
+            'others' => $this->faker->sentence,
+            'actif' => $this->faker->boolean,
+            'last_login' => $this->faker->dateTimeThisYear,
+            'email_verified_at'=> now(),
+        ]);
+
     }
 }

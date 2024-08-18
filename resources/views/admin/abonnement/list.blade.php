@@ -144,6 +144,7 @@
                                                             </a>
                                                         </li>
                                                         <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-download-2-line align-bottom me-2 text-muted"></i>Rapport</a></li>
+                                                        @if($abonnement->status_id <= 2)
                                                         <li class="dropdown-divider"></li>
                                                         <li>
                                                             <a class="dropdown-item remove-item-btn" onclick="return confirm('Êtes-vous sûr de vouloir marquer la fin de cet abonnement ?');" href="{{route('finish_subscription_admin',encrypt($abonnement->id))}}r">
@@ -157,6 +158,15 @@
                                                                 Arreter l'abonnement
                                                             </a>
                                                         </li>
+                                                        @endif
+                                                        @if($abonnement->status_id == 3)
+                                                        <li>
+                                                            <a class="dropdown-item remove-item-btn"  onclick="return confirm('Êtes-vous sûr de vouloir réactiver cet abonnement ?');" href="{{route('reactiver_subscription_admin',encrypt($abonnement->id))}}">
+                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                                Réactiver l'abonnement
+                                                            </a>
+                                                        </li>
+                                                        @endif
                                                     </ul>
                                                 </div>
                                             </td>

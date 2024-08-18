@@ -149,7 +149,22 @@ class SubscriptionController extends Controller
         }
     }
 
-     /*** Listes des tranches */
+    /**  Réactiver un abonnement */
+    public function reactiver_subscription_admin($id){
+        $abonnement_id = decrypt($id);
+
+        try {
+            $abonnement = Subscription::findOrFail($abonnement_id);
+            $abonnement->update([
+                'status_id'=> 2,
+            ]);
+            return back()->with('success',"Abonnement réactivé avec succès");
+        } catch (\Exception $e) {
+            return back()->with('error',"Une erreur est subvenue");
+        }
+    }
+
+    /*** Listes des tranches */
      public function admin_list_tranche(){
         $categories = Category::whereNull('deleted_at')->get();
         $cursus = Cursus::whereNull('deleted_at')->get();

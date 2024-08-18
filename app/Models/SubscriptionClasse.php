@@ -11,7 +11,7 @@ class SubscriptionClasse extends Model
     protected $table = 'subscription_classes';
 
     protected $fillable = [
-        'classe_id','subscription_id','status_id'
+        'classe_id','subscription_id','status_id','tranches'
     ];
 
     public function classe()
@@ -23,5 +23,6 @@ class SubscriptionClasse extends Model
     {
         return $this->belongsTo(TrancheStatus::class, 'status_id');
     }
+
 
 }

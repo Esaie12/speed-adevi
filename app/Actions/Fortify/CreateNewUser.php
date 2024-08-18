@@ -29,6 +29,7 @@ class CreateNewUser implements CreatesNewUsers
                 'email',
                 'max:255',
                 Rule::unique(User::class),
+                'regex:/^[\w\.-]+@[\w\.-]+\.\w{2,4}$/',
             ],
             'password' => ['required', 'string'],
             //'password' => $this->passwordRules(),

@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             CursusSeeder::class,
             StatusSeeder::class,
             TrancheStatusSeeder::class,
+
+            UserSeeder::class,
+            DonsSeeder::class,
         ]);
     }
 }

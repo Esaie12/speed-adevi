@@ -82,13 +82,7 @@
                         <h5 class="card-title mb-0"><i class="ri-map-pin-line align-middle me-1 text-muted"></i>Addresse de livraison</h5>
                     </div>
                     <div class="card-body">
-                        <ul class="list-unstyled vstack gap-2 fs-13 mb-0">
-                            <li class="fw-medium fs-14">Joseph Parker</li>
-                            <li>+(256) 245451 451</li>
-                            <li>2186 Joyce Street Rocky Mount</li>
-                            <li>New York - 25645</li>
-                            <li>United States</li>
-                        </ul>
+                       <strong class="text-success">Vous serez liver à l'addresse présente dans votre profil</strong>
                     </div>
                 </div>
 
@@ -112,6 +106,7 @@
                                     <tr>
                                         <th scope="col">Classe</th>
                                         <th scope="col">Montant</th>
+                                        <th scope="col">Statistique</th>
                                         <th scope="col">Statut</th>
                                     </tr>
                                 </thead>
@@ -127,6 +122,12 @@
                                         </td>
                                         <td> --- </td>
                                         <td>
+                                            @php
+                                            $stats =  app('App\Http\Controllers\AppController')->getTranchesAttribute($classe->id);
+                                            @endphp
+                                            {{ $stats['payer']." Payées sur ".$stats['payerNon'] }}
+                                        </td>
+                                        <td>
                                             <span class="badge badge-soft-{{$classe->status->color }} text-uppercase">{{$classe->status->title }}</span>
                                         </td>
                                     </tr>
@@ -141,7 +142,7 @@
                 <div class="card mt-5">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h5 class="card-title flex-grow-1 mb-0">Abonnement #{{$abonnement->reference}}</h5>
+                            <h5 class="card-title flex-grow-1 mb-0">Tranches de l'abonnement #{{$abonnement->reference}}</h5>
                             <div class="flex-shrink-0">
                                 <a href="#" class="btn btn-success btn-sm"><i class="ri-download-2-fill align-middle me-1"></i>Rapport</a>
                             </div>
@@ -173,12 +174,12 @@
                                         <td>{{format_money($tranche->amount)}}</td>
                                         <td>
                                             @if($tranche->pay_at)
-                                            <span class="badge badge-soft-success text-uppercase">Payer</span>
+                                            <span class="badge badge-soft-success text-uppercase">Payée</span>
                                             @else
                                                 @if($tranche->date_tranche < date('Y-m-d'))
                                                 <span class="badge badge-soft-danger text-uppercase">En retard</span>
                                                 @else
-                                                <span class="badge badge-soft-warning text-uppercase">Non Payé</span>
+                                                <span class="badge badge-soft-danger text-uppercase">Non Payée</span>
                                                 @endif
                                             @endif
                                         </td>
@@ -187,7 +188,8 @@
                                             @if($tranche->pay_at)
                                             <span class="fw-medium"> {{ Carbon\Carbon::parse($tranche->pay_at)->translatedFormat('d M, Y H:i')}}</span>
                                             @else
-                                            <button class="btn btn-sm btn-primary">Payer</button>
+                                            --
+                                            <!--button class="btn btn-sm btn-primary">Payer</button-->
                                             @endif
 
                                         </td>
